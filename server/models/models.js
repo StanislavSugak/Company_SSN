@@ -10,7 +10,7 @@ const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     role: {type: DataTypes.STRING(20), defaultValue: "employee", allowNull: true},
     email: {type: DataTypes.STRING(45), unique: true, allowNull: true},
-    hash_password: {type: DataTypes.STRING, allowNull: true},
+    password: {type: DataTypes.STRING, allowNull: true},
     id_direction: {type: DataTypes.INTEGER, references: { model: Direction, key: 'id' }}
 })
 
@@ -33,8 +33,6 @@ const User_Personal = sequelize.define('user_personal', {
 const Refresh_Token = sequelize.define('refresh_token', {
     id_user: {type: DataTypes.INTEGER, primaryKey: true, references: { model: User, key: 'id' }},
     refresh_token: {type: DataTypes.STRING, allowNull: true},
-    date_expires: {type: DataTypes.DATE, allowNull: true},
-    date_created: {type: DataTypes.DATE, allowNull: true}
 })
 
 const Project = sequelize.define('project', {
