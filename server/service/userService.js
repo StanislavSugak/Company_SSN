@@ -5,7 +5,7 @@ const ApiError = require('../error/ApiError')
 
 class UserService{
     async registration (role, email, password, id_direction) {
-        const candidate = await User.findOne({email})
+        const candidate = await User.findOne({ where: { email } })
 
         if(candidate){
             throw new Error('Пользвоатель таки мемйлов существует')
@@ -22,7 +22,7 @@ class UserService{
     }
 
     async login (email, password) {
-        const user = await User.findOne({email})
+        const user = await User.findOne({ where: { email } })
         
         if(!user){
             throw ApiError.badRequest('Пользвоатель не найден')
@@ -67,6 +67,29 @@ class UserService{
         await tokenService.saveToken(userDTO.id, tokens.refreshToken)
 
         return { ...tokens, user: userDTO}
+    }
+
+    async getAllUsers() {
+        const users = await User.findAll({
+            include: [
+                { model: Direction, as: 'direction' },
+                { model: User_Personal, as: 'personal' }
+            ]
+        });
+    
+        return users;
+    }
+
+    async getOneUser(id) {
+        const users = await User.findOne({
+            where: {id},
+            include: [
+                { model: Direction, as: 'direction' },
+                { model: User_Personal, as: 'personal' }
+            ]
+        });
+    
+        return user;
     }
 }
 

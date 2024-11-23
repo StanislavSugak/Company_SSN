@@ -61,6 +61,20 @@ class UserController{
             next(e)
         }
     }
+
+    async getUsers(req, res){
+        const users = await userService.getAllUsers();
+
+        return res.json(users)
+    }
+
+    async getUser(req, res){
+        const {id} = req.params;
+
+        const user = await userService.getOneUser(id);
+
+        return res.json(user)
+    }
 }
 
 module.exports = new UserController()
