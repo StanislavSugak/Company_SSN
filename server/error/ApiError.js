@@ -5,6 +5,10 @@ class ApiError extends Error{
         this.message = message
     }
 
+    static ok(message){
+        return new ApiError(200, message); // Код 200 для успешного запроса
+    }    
+
     static badRequest(message) {
         return new ApiError(400, message); // Код 400 для неверного запроса
     }

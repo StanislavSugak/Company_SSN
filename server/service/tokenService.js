@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const {Refresh_Token} = require('../models/models')
+const ApiError = require('../error/ApiError')
 
 class TokenService{
     generateTokens(payload){

@@ -31,13 +31,13 @@ class User_PersonalService{
     }
     
     async getAll() {
-        const users_personal = await User_Personal.findAll();
+        const users_personal = await User_Personal.findAll({attributes: { exclude: ['createdAt', 'updatedAt'] } });
     
         return users_personal;
     }
 
     async getOne(id) {
-        const user_personal = await User_Personal.findOne({where: {id}});
+        const user_personal = await User_Personal.findOne({where: {id}, attributes: { exclude: ['createdAt', 'updatedAt'] } });
     
         return user_personal;
     }

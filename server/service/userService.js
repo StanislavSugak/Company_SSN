@@ -1,98 +1,119 @@
-const {User, Direction} = require('../models/models')
-const tokenService = require('./tokenService')
-const UserDTO = require('../dtos/userDTO')
-const ApiError = require('../error/ApiError')
-const bcrypt = require('bcrypt');
+const { User, Direction } = require("../models/models");
+const tokenService = require("./tokenService");
+const UserDTO = require("../dtos/userDTO");
+const ApiError = require("../error/ApiError");
+const bcrypt = require("bcrypt");
 
-class UserService{
-    async registration (role, email, password, id_direction) {
-        const candidate = await User.findOne({ where: { email } })
+class UserService {
+    async registration(role, email, password, id_direction) {
+        const candidate = await User.findOne({ where: { email } });
 
-        if(candidate){
-            throw ApiError.conflict('Пользователь с таким email уже существует');
+        if (candidate) {
+            throw ApiError.conflict(
+                "Пользователь с таким email уже существует"
+            );
         }
 
-        const hashPassword = await bcrypt.hash(password, 3)
-        const user = await User.create({role, email, password: hashPassword, id_direction})
+        const hashPassword = await bcrypt.hash(password, 3);
+        const user = await User.create({
+            role,
+            email,
+            password: hashPassword,
+            id_direction,
+        });
 
-        const userDTO = new UserDTO(user)
-        const tokens = tokenService.generateTokens({...userDTO});
-        
-        await tokenService.saveToken(userDTO.id, tokens.refreshToken)
+        const userDTO = new UserDTO(user);
+        const tokens = tokenService.generateTokens({ ...userDTO });
 
-        return { ...tokens, user: userDTO}
+        await tokenService.saveToken(userDTO.id, tokens.refreshToken);
+
+        return { ...tokens, user: userDTO };
     }
 
-    async login (email, password) {
-        const user = await User.findOne({ where: { email } })
-        
-        if(!user){
-            throw ApiError.unauthorized('Пользователь не найден');
+    async login(email, password) {
+        const user = await User.findOne({ where: { email } });
+
+        if (!user) {
+            throw ApiError.unauthorized("Пользователь не найден");
         }
 
-        const isPassEquals = await bcrypt.compare(password, user.password)
+        const isPassEquals = await bcrypt.compare(password, user.password);
 
-        if(!isPassEquals){
-            throw ApiError.unauthorized('Пароли не верны');
+        if (!isPassEquals) {
+            throw ApiError.unauthorized("Пароли не верны");
         }
 
         const userDTO = new UserDTO(user);
-        const tokens = tokenService.generateTokens({...userDTO})
-    
-        await tokenService.saveToken(userDTO.id, tokens.refreshToken)
+        const tokens = tokenService.generateTokens({ ...userDTO });
 
-        return { ...tokens, user: userDTO}
+        await tokenService.saveToken(userDTO.id, tokens.refreshToken);
+
+        return { ...tokens, user: userDTO };
     }
 
-    async logout(refreshToken){
+    async logout(refreshToken) {
         const token = await tokenService.removeToken(refreshToken);
 
         return token;
     }
 
-    async refresh(refreshToken){
-        if(!refreshToken){
-            throw ApiError.badRequest('Токен не предоставлен');
+    async refresh(refreshToken) {
+        if (!refreshToken) {
+            throw ApiError.badRequest("Токен не предоставлен");
         }
 
-        const userData = tokenService.validateRefreshToken(refreshToken)
-        const tokenFromDb = await tokenService.findToken(refreshToken)
+        const userData = tokenService.validateRefreshToken(refreshToken);
+        const tokenFromDb = await tokenService.findToken(refreshToken);
 
-        if(!userData || !tokenFromDb){
-            throw ApiError.unauthorized('Не авторизован');
+        if (!userData || !tokenFromDb) {
+            throw ApiError.unauthorized("Не авторизован");
         }
-        const user = await  User.findByPk(userData.id);
+        const user = await User.findByPk(userData.id);
         if (!user) {
-            throw ApiError.notFound('Пользователь не найден');
+            throw ApiError.notFound("Пользователь не найден");
         }
-        
-        const userDTO = new UserDTO(user);
-        const tokens = tokenService.generateTokens({...userDTO})
-        if (!tokens) {
-            throw ApiError.internal('Ошибка при создании токенов');
-        }
-    
-        await tokenService.saveToken(userDTO.id, tokens.refreshToken)
 
-        return { ...tokens, user: userDTO}
+        const userDTO = new UserDTO(user);
+        const tokens = tokenService.generateTokens({ ...userDTO });
+        if (!tokens) {
+            throw ApiError.internal("Ошибка при создании токенов");
+        }
+
+        await tokenService.saveToken(userDTO.id, tokens.refreshToken);
+
+        return { ...tokens, user: userDTO };
     }
 
     async getAll() {
         const users = await User.findAll({
-            include: [ { model: Direction, as: 'direction' } ]
+            include: [
+                {
+                    model: Direction,
+                    as: "direction",
+                    attributes: { exclude: ["createdAt", "updatedAt"] },
+                },
+            ],
+            attributes: { exclude: ["createdAt", "updatedAt"] },
         });
-    
+
         return users;
     }
 
     async getOne(id) {
         const user = await User.findOne({
-            where: {id},
-            include: [{ model: Direction, as: 'direction' }]
+            where: { id },
+            include: [
+                {
+                    model: Direction,
+                    as: "direction",
+                    attributes: { exclude: ["createdAt", "updatedAt"] },
+                },
+            ],
+            attributes: { exclude: ["createdAt", "updatedAt"] },
         });
-    
+
         return user;
     }
 }
 
-module.exports = new UserService()
+module.exports = new UserService();
