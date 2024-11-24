@@ -1,6 +1,5 @@
 const Router = require('express')
 const router = new Router()
-
 const user_learnController = require('../controllers/user_learnController')
 
 router.post('/', user_learnController.create)
