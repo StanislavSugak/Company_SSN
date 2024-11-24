@@ -5,7 +5,7 @@ class DirectionService{
         const candidate = await Direction.findOne({ where: { direction } })
 
         if(candidate){
-            throw new Error('Направление уже существует таки мемйлов существует')
+            throw ApiError.conflict('Направление уже существует');
         }
 
         const directionData = await Direction.create({direction})//mb DTO
@@ -13,10 +13,16 @@ class DirectionService{
         return directionData;
     }
 
-    async getAllDirection(){
+    async getAll(){
         const directions = await Direction.findAll();
     
         return directions;
+    }
+
+    async getOne(id) {
+        const direction = await Direction.findOne({where: {id}});
+    
+        return direction;
     }
 }
 

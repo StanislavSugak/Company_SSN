@@ -15,9 +15,17 @@ class DirectionController{
     }
 
     async getAll (req, res) {
-        const directions = await directionService.getAllDirection();
+        const directions = await directionService.getAll();
 
         return res.json(directions)
+    }
+
+    async getOne(req, res){
+        const {id} = req.params;
+
+        const direction = await directionService.getOne(id);
+
+        return res.json(direction)
     }
 }
 
