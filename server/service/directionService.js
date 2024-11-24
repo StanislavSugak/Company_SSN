@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken')
 const {Direction} = require('../models/models')
 
 class DirectionService{

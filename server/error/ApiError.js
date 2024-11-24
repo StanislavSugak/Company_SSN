@@ -5,16 +5,28 @@ class ApiError extends Error{
         this.message = message
     }
 
-    static badRequest(message){
-        return new ApiError(404, message)
+    static badRequest(message) {
+        return new ApiError(400, message); // Код 400 для неверного запроса
     }
 
-    static internal(message){ //внутренняя ошибка сервера
-        return new ApiError(500, message)
+    static unauthorized(message) { // Ошибка не авторизованного доступа
+        return new ApiError(401, message);
     }
 
-    static forbidden(message){ //доступ запрещен 
-        return new ApiError(403, message)
+    static forbidden(message) { // Доступ запрещён
+        return new ApiError(403, message);
+    }
+
+    static notFound(message) { // Ошибка, когда объект не найден
+        return new ApiError(404, message);
+    }
+
+    static conflict(message) {
+        return new ApiError(409, message); // Код 409 для конфликта
+    }
+
+    static internal(message) { // Внутренняя ошибка сервера
+        return new ApiError(500, message);
     }
 }
 

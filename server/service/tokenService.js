@@ -6,10 +6,7 @@ class TokenService{
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET_KEY, {expiresIn: '30m'})
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET_KEY, {expiresIn: '30d'})
 
-        return{
-            accessToken,
-            refreshToken
-        }
+        return{ accessToken, refreshToken }
     }
 
     validateAccessToken(token){
@@ -31,24 +28,24 @@ class TokenService{
     }
 
     async saveToken(id_user, refreshToken){
-        const tokenData = await Refresh_Token.findOne(id_user)
+        const tokenData = await Refresh_Token.findOne({where: {id_user}})
         if(tokenData){
             tokenData.refreshToken = refreshToken;
             return tokenData.save();
         }
 
-        const token = await Refresh_Token.create({id_user, refreshToken})
+        const token = await Refresh_Token.create({id_user, refresh_token: refreshToken})
         return token
     }
 
     async removeToken(refreshToken){
-        const tokenData = await tokenModel.deleteOne({refreshToken})
+        const tokenData = await Refresh_Token.deleteOne({where: {refreshToken}})
 
         return tokenData;
     }
 
     async findToken(refreshToken){
-        const tokenData = await tokenModel.findOne({refreshToken})
+        const tokenData = await Refresh_Token.findOne({where: {refreshToken}})
 
         return tokenData;
     }
