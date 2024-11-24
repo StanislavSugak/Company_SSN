@@ -42,7 +42,7 @@ const Project = sequelize.define('project', {
     date_start: {type: DataTypes.DATE, allowNull: true},
     date_delay: {type: DataTypes.DATE},
     date_end: {type: DataTypes.DATE},
-    bus_factor: {type: DataTypes.INTEGER, allowNull: true},
+    bus_factor: {type: DataTypes.INTEGER, defaultValue: 0, allowNull: true},
     id_teamlead: {type: DataTypes.INTEGER, references: { model: User, key: 'id' }},
 })
 
@@ -99,8 +99,8 @@ User_Personal.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id'});
 User.hasOne(Refresh_Token, {foreignKey: 'id_user',sourceKey: 'id'});
 Refresh_Token.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id'});
 
-User.hasMany(Project, {foreignKey: 'id_teamlead',sourceKey: 'id'});
-Project.belongsTo(User, { foreignKey: 'id_teamlead',targetKey: 'id'});
+User.hasMany(Project, {foreignKey: 'id_teamlead',sourceKey: 'id',  as: 'projects'});
+Project.belongsTo(User, { foreignKey: 'id_teamlead',targetKey: 'id', as: 'teamlead'});
 
 Direction.hasMany(Stack, {foreignKey: 'id_direction',sourceKey: 'id'});
 Stack.belongsTo(Direction, { foreignKey: 'id_direction',targetKey: 'id'});
