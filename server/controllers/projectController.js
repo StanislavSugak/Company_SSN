@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const projectService = require('../service/projectService');
 
-class projectController{
+class ProjectController{
     async create (req, res, next) {
         try{
             const {name, description, date_start, bus_factor, id_teamlead} = req.body;
@@ -30,4 +30,4 @@ class projectController{
     }
 }
 
-module.exports = new projectController()
+module.exports = new ProjectController()

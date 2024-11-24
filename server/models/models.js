@@ -54,8 +54,8 @@ const Stack = sequelize.define('stack', {
 })
 
 const Project_Stack = sequelize.define('project_stack', {
-    id_project: {type: DataTypes.INTEGER, references: { model: Project, key: 'id' }},
-    id_stack: {type: DataTypes.INTEGER, references: { model: Stack, key: 'id' }},
+    id_project: {type: DataTypes.INTEGER, primaryKey: true, references: { model: Project, key: 'id' }},
+    id_stack: {type: DataTypes.INTEGER, primaryKey: true, references: { model: Stack, key: 'id' }},
     count_required: {type: DataTypes.INTEGER, allowNull: true}
 })
 
