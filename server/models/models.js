@@ -90,47 +90,47 @@ const User_Learn_History = sequelize.define('user_learn_history', {
     grade: {type: DataTypes.INTEGER, allowNull: true}
 })
 
-Direction.hasMany(User, {foreignKey: 'id_direction',sourceKey: 'id'});
-User.belongsTo(Direction, { foreignKey: 'id_direction',targetKey: 'id'});
+Direction.hasMany(User, {foreignKey: 'id_direction',sourceKey: 'id', as:'user'});
+User.belongsTo(Direction, { foreignKey: 'id_direction',targetKey: 'id', as:'direction'});
 
-User.hasOne(User_Personal, {foreignKey: 'id_user',sourceKey: 'id'});
-User_Personal.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id'});
+User.hasOne(User_Personal, {foreignKey: 'id_user',sourceKey: 'id', as:'user_personal'});
+User_Personal.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id', as:'user'});
 
-User.hasOne(Refresh_Token, {foreignKey: 'id_user',sourceKey: 'id'});
-Refresh_Token.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id'});
+User.hasOne(Refresh_Token, {foreignKey: 'id_user',sourceKey: 'id', as: 'refresh_token'});
+Refresh_Token.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id', as: 'user'});
 
-User.hasMany(Project, {foreignKey: 'id_teamlead',sourceKey: 'id',  as: 'projects'});
+User.hasMany(Project, {foreignKey: 'id_teamlead',sourceKey: 'id',  as: 'project'});
 Project.belongsTo(User, { foreignKey: 'id_teamlead',targetKey: 'id', as: 'teamlead'});
 
-Direction.hasMany(Stack, {foreignKey: 'id_direction',sourceKey: 'id'});
-Stack.belongsTo(Direction, { foreignKey: 'id_direction',targetKey: 'id'});
+Direction.hasMany(Stack, {foreignKey: 'id_direction',sourceKey: 'id', as:'stack'});
+Stack.belongsTo(Direction, { foreignKey: 'id_direction',targetKey: 'id', as:'direction'});
 
-Project.hasMany(Project_Stack, {foreignKey: 'id_project',sourceKey: 'id'});
-Project_Stack.belongsTo(Project, { foreignKey: 'id_project',targetKey: 'id'});
+Project.hasMany(Project_Stack, {foreignKey: 'id_project',sourceKey: 'id', as:'project_stack'});
+Project_Stack.belongsTo(Project, { foreignKey: 'id_project',targetKey: 'id', as:'project'});
 
-Stack.hasMany(Project_Stack, {foreignKey: 'id_stack',sourceKey: 'id'});
-Project_Stack.belongsTo(Stack, { foreignKey: 'id_stack',targetKey: 'id'});
+Stack.hasMany(Project_Stack, {foreignKey: 'id_stack',sourceKey: 'id', as:'project_stack'});
+Project_Stack.belongsTo(Stack, { foreignKey: 'id_stack',targetKey: 'id', as:'stack'});
 
-Stack.hasMany(User_Stack, {foreignKey: 'id_stack',sourceKey: 'id'});
-User_Stack.belongsTo(Stack, { foreignKey: 'id_stack',targetKey: 'id'});
+Stack.hasMany(User_Stack, {foreignKey: 'id_stack',sourceKey: 'id', as:'user_stack'});
+User_Stack.belongsTo(Stack, { foreignKey: 'id_stack',targetKey: 'id', as:'stack'});
 
-User.hasMany(User_Stack, {foreignKey: 'id_user',sourceKey: 'id'});
-User_Stack.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id'});
+User.hasMany(User_Stack, {foreignKey: 'id_user',sourceKey: 'id', as:'user_stack'});
+User_Stack.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id', as:'user'});
 
-Project.hasMany(Project_User, {foreignKey: 'id_project',sourceKey: 'id'});
-Project_User.belongsTo(Project, { foreignKey: 'id_project',targetKey: 'id'});
+Project.hasMany(Project_User, {foreignKey: 'id_project',sourceKey: 'id', as:'project_user'});
+Project_User.belongsTo(Project, { foreignKey: 'id_project',targetKey: 'id', as:'project'});
 
-User_Stack.hasMany(Project_User, {foreignKey: 'id_user_stack',sourceKey: 'id'});
-Project_User.belongsTo(User_Stack, { foreignKey: 'id_user_stack',targetKey: 'id'});
+User_Stack.hasMany(Project_User, {foreignKey: 'id_user_stack',sourceKey: 'id', as:'project_user'});
+Project_User.belongsTo(User_Stack, { foreignKey: 'id_user_stack',targetKey: 'id', as:'usre_stack'});
 
-Stack.hasMany(User_Learn, {foreignKey: 'id_stack',sourceKey: 'id'});
-User_Learn.belongsTo(Stack, { foreignKey: 'id_stack',targetKey: 'id'});
+Stack.hasMany(User_Learn, {foreignKey: 'id_stack',sourceKey: 'id', as:'user_learn'});
+User_Learn.belongsTo(Stack, { foreignKey: 'id_stack',targetKey: 'id', as:'stack'});
 
-User.hasMany(User_Learn, {foreignKey: 'id_user',sourceKey: 'id'});
-User_Learn.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id'});
+User.hasMany(User_Learn, {foreignKey: 'id_user',sourceKey: 'id', as:'user_learn'});
+User_Learn.belongsTo(User, { foreignKey: 'id_user',targetKey: 'id', as:'user'});
 
-User_Learn.hasMany(User_Learn_History, {foreignKey: 'id_learn',sourceKey: 'id'});
-User_Learn_History.belongsTo(User_Learn, { foreignKey: 'id_learn',targetKey: 'id'});
+User_Learn.hasMany(User_Learn_History, {foreignKey: 'id_learn',sourceKey: 'id', as:'user_learn_history'});
+User_Learn_History.belongsTo(User_Learn, { foreignKey: 'id_learn',targetKey: 'id', as:'user_learn'});
 
 module.exports = {
     User,

@@ -5,21 +5,20 @@ class Project_StackService {
     async createProject(project_stackData) {
         const project = await Project.findOne({
             where: {id: project_stackData.id_project}
-        }); //hgjk
+        });
     
         if (!project) {
             throw ApiError.badRequest('Такого проекта не существует');
         }
 
-        if(project.id_stack === project_stackData.id_stack){
+        if(project_stackData.id_stack === project_stackData.id_stack){
             throw ApiError.conflict('Такая технология уже используется на проекте');
         }
 
-        const project_stack = await Project_Stack.create({ ...project_stackData }); //mb DTO
+        const project_stack = await Project_Stack.create({ ...project_stackData });
 
         return project_stack;
     }
-    //обработка айди
     
     async getAll(id_project) {
         const project_stacks = await Project_Stack.findAll({

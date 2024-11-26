@@ -10,4 +10,4 @@ module.exports = class UserDTO{
         this.role = model.role;
         this.id_direction = model.id_direction;
     }
-}
+}   

@@ -1,26 +1,25 @@
-const ApiError = require('../error/ApiError');
-const project_stackService = require('../service/project_stackService');
+const ApiError = require("../error/ApiError");
+const project_stackService = require("../service/project_stackService");
+const Controller = require("./controller");
 
-class Project_StackController{
-    async create (req, res, next) {
-        try{
-            const {id_project, id_stack, count_required} = req.body;
-            const project_stackData =  {id_project, id_stack, count_required};
+class Project_StackController extends Controller {
+    async create(req, res) {
+        const { id_project, id_stack, count_required } = req.body;
+        const project_stackData = { id_project, id_stack, count_required };
 
-            const project_stack = await project_stackService.createProject(project_stackData);
+        const project_stack = await project_stackService.createProject(project_stackData);
 
-            return res.json(project_stack);
-        } catch (e){
-            next(e)
-        }
+        return res.json(project_stack);
     }
 
-    async getAll (req, res) {
-        const {id_project} = req.params;
+    async getAll(req, res) {
+        const { id_project } = req.params;
+        Controller.checkId(id_project);
+        
         const project_stacks = await project_stackService.getAll(id_project);
 
-        return res.json(project_stacks)
+        return res.json(project_stacks);
     }
 }
 
-module.exports = new Project_StackController()
+module.exports = new Project_StackController();

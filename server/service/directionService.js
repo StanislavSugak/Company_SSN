@@ -19,14 +19,22 @@ class DirectionService {
             attributes: { exclude: ["createdAt", "updatedAt"] },
         });
 
+        if(!directions){
+            throw ApiError.badRequest('Нету записей о направлениях')
+        }
+
         return directions;
     }
-
+       
     async getOne(id) {
         const direction = await Direction.findOne({
             where: { id },
             attributes: { exclude: ["createdAt", "updatedAt"] },
         });
+
+        if(!direction){
+            throw ApiError.badRequest('Направления с таким id не существует')
+        }
 
         return direction;
     }
