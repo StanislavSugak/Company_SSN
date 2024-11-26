@@ -9,7 +9,7 @@ class DirectionService {
             throw ApiError.conflict("Направление уже существует");
         }
 
-        const directionData = await Direction.create({ direction }); //mb DTO
+        const directionData = await Direction.create({ direction });
 
         return directionData;
     }
