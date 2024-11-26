@@ -1,4 +1,4 @@
-const {User_Learn} = require('../models/models')
+const {User_Learn, User_Learn_History} = require('../models/models')
 const ApiError = require('../error/ApiError')
 
 class User_LearnService{
@@ -15,8 +15,19 @@ class User_LearnService{
     }
 
     async deleteStack(user_learnData){
-        const user_learn = this.getOne(user_learnData)
+        const user_learn = await this.getOne(user_learnData)
+        console.log(user_learn)
         
+        const historyCount = await User_Learn_History.count({
+            where: {
+                id_learn: user_learn.id
+            }
+        });
+    
+        if (historyCount > 0) {
+            throw ApiError.badRequest('Невозможно удалить запись, так как существуют связанные записи в истории обучения.');
+        }
+
         const deletedCount = await User_Learn.destroy({
             where: {
                 id_user: user_learnData.id_user,
@@ -27,6 +38,7 @@ class User_LearnService{
         if (deletedCount === 0) {
             throw ApiError.notFound('Запись не найдена или уже удалена');
         }
+
         return user_learn;
     }
 
@@ -38,9 +50,14 @@ class User_LearnService{
 
     async getOne(user_learnData) {
         const user_learn = await User_Learn.findOne({ where: { id_user: user_learnData.id_user, id_stack: user_learnData.id_stack}, attributes: { exclude: ['createdAt', 'updatedAt'] } });
-    
+        
+        if (!user_learn) {
+            throw ApiError.notFound('Запись не найдена');
+        }
+
         return user_learn;
     }
+
 }
 
 module.exports = new User_LearnService()

@@ -1,7 +1,8 @@
 const ApiError = require("../error/ApiError");
 const user_learn_historyService = require("../service/user_learn_historyService");
+const Controller = require("./controller");
 
-class User_Learn_HistoryController {
+class User_Learn_HistoryController extends Controller {
     async create(req, res) {
         const { id_learn, date_learn, type, grade } = req.body;
         const user_learn_historyData = { id_learn, date_learn, type, grade };

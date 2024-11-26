@@ -30,6 +30,7 @@ class User_PersonalService{
         return updated;
     }
     
+    //
     async getAll() {
         const users_personal = await User_Personal.findAll({attributes: { exclude: ['createdAt', 'updatedAt'] } });
     

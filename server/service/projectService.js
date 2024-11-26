@@ -8,7 +8,7 @@ class projectService {
                 id: projectData.id_teamlead,
                 role: 'teamlead'
             }
-        }); //убрать в юсерсервис
+        });
     
         if (!teamlead) {
             throw ApiError.badRequest('Пользователь не найден или не является teamlead');
