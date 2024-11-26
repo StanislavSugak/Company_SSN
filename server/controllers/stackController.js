@@ -7,6 +7,8 @@ class DirectionController extends Controller {
         const { name, type, id_direction } = req.body;
         const stackData = { name, type, id_direction };
 
+        Controller.checkFields(stackData);
+
         const stack = await stackService.createStack(stackData);
 
         return res.json(stack);

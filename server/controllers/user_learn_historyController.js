@@ -7,6 +7,8 @@ class User_Learn_HistoryController extends Controller {
         const { id_learn, date_learn, type, grade } = req.body;
         const user_learn_historyData = { id_learn, date_learn, type, grade };
 
+        Controller.checkFields(user_learn_historyData);
+
         const user_learn_history = await user_learn_historyService.createStack(user_learn_historyData);
 
         return res.json(user_learn_history);

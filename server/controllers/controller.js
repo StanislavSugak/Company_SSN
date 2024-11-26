@@ -32,9 +32,9 @@ class Controller {
         }
     }
     
-    static checkId(id) {
+    static checkId(id, fieldName = 'id') {
         if (!id || isNaN(id) || parseInt(id) <= 0) {
-            throw ApiError.badRequest('Неккоректный id');
+            throw ApiError.badRequest(`Некорректный идентификатор: ${fieldName}`);
         }   
     }
 
@@ -43,11 +43,22 @@ class Controller {
             throw ApiError.badRequest("Неккоректный параметр");
         }
     }
+
+    static checkFields(obj) {
+        for (const [key, value] of Object.entries(obj)) {  //O.e принимает объект возвращает массив свойств
+
+            if (value === null || value === undefined || (typeof value === 'string' && value.trim() === '')) {
+                throw ApiError.badRequest(`Поле "${key}" не может быть пустым, null или undefined`);
+            }
+
+            if (key.startsWith('id_')) {   // Проверка для полей, начинающихся на id_
+                Controller.checkId(value, key);
+            }
+        }
+        return true; 
+    }
 }
 
 module.exports = Controller;
 
-/*if(!id || isNaN(id) || parseInt(id) <= 0){
-    throw ApiError.badRequest('Неккоректный id')
-}*/
 

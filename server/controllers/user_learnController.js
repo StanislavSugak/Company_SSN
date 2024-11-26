@@ -7,6 +7,8 @@ class User_LearnController extends Controller {
         const { id_user, id_stack, date_enter } = req.body;
         const user_learnData = { id_user, id_stack, date_enter };
 
+        Controller.checkFields(user_learnData);
+
         const user_learn = await user_learnService.createStack(user_learnData);
 
         return res.json(user_learn);

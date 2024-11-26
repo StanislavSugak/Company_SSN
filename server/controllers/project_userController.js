@@ -5,9 +5,11 @@ const Controller = require("./controller");
 class Project_UserController extends Controller {
     async create(req, res) {
         const { id_project, id_user_stack } = req.body;
-        const project_userkData = { id_project, id_user_stack };
+        const project_userData = { id_project, id_user_stack };
+        
+        Controller.checkFields(project_userData);
 
-        const project_user = await project_userService.createProject(project_userkData);
+        const project_user = await project_userService.createProject(project_userData);
 
         return res.json(project_user);
     }

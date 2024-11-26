@@ -7,6 +7,8 @@ class Project_StackController extends Controller {
         const { id_project, id_stack, count_required } = req.body;
         const project_stackData = { id_project, id_stack, count_required };
 
+        Controller.checkFields(project_stackData);
+
         const project_stack = await project_stackService.createProject(project_stackData);
 
         return res.json(project_stack);

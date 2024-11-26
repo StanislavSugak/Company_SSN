@@ -18,6 +18,8 @@ class User_StackController extends Controller{
 
         const user_stackData = { id_user, id_stack, grade, is_mentor };
 
+        Controller.checkFields(user_stackData);
+
         const filteredUserData = Object.fromEntries(
             Object.entries(user_stackData).filter(
                 ([key, value]) => value !== null && value !== undefined

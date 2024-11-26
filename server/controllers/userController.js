@@ -13,8 +13,11 @@ class UserController extends Controller {
         }
 
         const { role, email, password, id_direction } = req.body;
+        const user_regData = { role, email, password, id_direction }
+        
+        Controller.checkFields(user_regData);
 
-        const userData = await userService.registration(role,email,password,id_direction);
+        const userData = await userService.registration(user_regData);
 
         if (!userData) {
             return next(ApiError.internal("Ошибка при создании пользователя"));
