@@ -1,0 +1,7 @@
+export const LOGIN_ROUTE = '/login'
+export const REGISTRATION_ROUTE = '/registration'
+export const ANALITIC_ROUTE = '/analitic'
+export const EMPLOYEE_ROUTE = '/employee'
+export const PROJECT_ROUTE = '/project'
+export const SHAPING_ROUTE = '/shaping'
+export const WORKSPACE_ROUTE = '/workspace'
