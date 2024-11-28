@@ -1,17 +1,10 @@
-import Analitic from "./pages/Analitic";
-import Authorization from "./pages/Authorization";
-import Employee from "./pages/Employee";
-import Projet from "./pages/Project";
-import Shaping from "./pages/Shaping";
-import Workspace from "./pages/Workspace";
-import {
-    ANALITIC_ROUTE,
-    EMPLOYEE_ROUTE,
-    LOGIN_ROUTE,
-    PROJECT_ROUTE,
-    SHAPING_ROUTE,
-    WORKSPACE_ROUTE,
-} from "./utils/consts";
+import Analitic from "./pages/Analitic/Analitic";
+import Authorization from "./pages/Authorization/Authorization";
+import Employee from "./pages/Employee/Employee";
+import Projet from "./pages/Project/Project";
+import Shaping from "./pages/Shaping/Shaping";
+import Workspace from "./pages/Workspace/Workspace";
+import { ANALITIC_ROUTE, EMPLOYEE_ROUTE, LOGIN_ROUTE, PROJECT_ROUTE, SHAPING_ROUTE, WORKSPACE_ROUTE } from "./utils/consts";
 
 export const teamleadRoutes = [
     {
