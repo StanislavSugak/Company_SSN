@@ -18,7 +18,6 @@ class projectService {
 
         return project;
     }
-    //обработка айди
 
     async getAll() {
         const projects = await Project.findAll({
