@@ -10,7 +10,7 @@ class DirectionService {
         }
 
         const directionData = await Direction.create({ direction });
-
+        
         return directionData;
     }
 

@@ -11,13 +11,13 @@ class UserController extends Controller {
                 ApiError.badRequest("Ошибка при валидации", errors.array())
             );
         }
-
+        //исправить валидацию
         const { role, email, password, id_direction } = req.body;
         const user_regData = { role, email, password, id_direction }
-        
+        ///передеать
         Controller.checkFields(user_regData);
 
-        const userData = await userService.registration(user_regData);
+        const userData = await userService.registration(role, email, password, id_direction);
 
         if (!userData) {
             return next(ApiError.internal("Ошибка при создании пользователя"));
