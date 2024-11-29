@@ -1,9 +1,10 @@
 import $api from "../http/index";
+import {API_ENDPOINTS} from '../http/apiEndpoints'
 
 export default class AuthService {
     static async login(email, password) {
-        const response = await $api.post("user/login", { email, password });
-//обработать ошибки
+        const response = await $api.post(API_ENDPOINTS.USER.LOGIN, { email, password });
+        //обработать ошибки
         const authResponse = {
             accessToken: response.data.accessToken,
             refreshToken: response.data.refreshToken,
