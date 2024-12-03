@@ -10,9 +10,7 @@ export default class AuthService {
             refreshToken: response.data.refreshToken,
             user: {
                 id: response.data.user.id,
-                email: response.data.user.email,
-                role: response.data.user.role,
-                id_direction: response.data.user.id_direction,
+                role: response.data.user.role
             },
         };
         console.log(authResponse);
