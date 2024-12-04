@@ -23,7 +23,6 @@ class Controller {
 
     initializeAsyncMethods() {     
         const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this)); //все методы текущего класса 
-        
         // в AsyncCatch только те методы, которые являются функциями
         for (const method of methods) {
             if (typeof this[method] === 'function' && method !== 'constructor') {

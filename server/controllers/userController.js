@@ -31,16 +31,15 @@ class UserController extends Controller {
     async login(req, res) {
         const { email, password } = req.body;
         if (!email || !password) {
-            return next(
-                ApiError.badRequest("Email и пароль обязательны для входа")
-            );
+            throw ApiError.badRequest("Email и пароль обязательны для входа")
         }
 
         const userData = await userService.login(email, password);
         if (!userData) {
-            return next(ApiError.unauthorized("Неверный email или пароль"));
+            throw ApiError.unauthorized("Неверный email или пароль");
         }
-
+        console.log('sdfsdfsdfrefresssss')
+        console.log(userData.refreshToken)
         res.cookie("refreshToken", userData.refreshToken, {
             maxAge: 30 * 24 * 60 * 60 * 1000, // 30 дней
             httpOnly: true,
@@ -64,7 +63,7 @@ class UserController extends Controller {
         const userData = await userService.refresh(refreshToken);
 
         res.cookie("refreshToken", userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true,});
-
+        console.log('ttttttttttttyyyy')
         return res.json(userData);
     }
 
@@ -85,3 +84,8 @@ class UserController extends Controller {
 }
 
 module.exports = new UserController();
+
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sZSI6InRlYW1sZWFkIiwiaWF0IjoxNzMzMzM4NjMwLCJleHAiOjE3MzU5MzA2MzB9.NH9DMrgh84QzAJka_Ac68Eh0lf5DXtd-gHoqwdZEoG0
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJ0ZWFtbGVhZEBnbWFpbC5jb20iLCJyb2xlIjoidGVhbWxlYWQiLCJpZF9kaXJlY3Rpb24iOjEsImlhdCI6MTczMjgzNDMyNSwiZXhwIjoxNzM1NDI2MzI1fQ.kDPYut4PY-QwV0XKqK95BoEsT5Ic-BMS6a39L6jGUHY
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sZSI6InRlYW1sZWFkIiwiaWF0IjoxNzMzMzM4NzM0LCJleHAiOjE3MzU5MzA3MzR9.7LYaznxTq1fu8PG6szzERIAozpVkRoWj-4VQab35tuc
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJ0ZWFtbGVhZEBnbWFpbC5jb20iLCJyb2xlIjoidGVhbWxlYWQiLCJpZF9kaXJlY3Rpb24iOjEsImlhdCI6MTczMjgzNDMyNSwiZXhwIjoxNzM1NDI2MzI1fQ.kDPYut4PY-QwV0XKqK95BoEsT5Ic-BMS6a39L6jGUHY

@@ -1,41 +1,73 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import "./Authorization.scss";
 import Login from "../../assets/icons/login.svg";
 import Password from "../../assets/icons/password.svg";
-import { login } from "../../store/slices/authSlice"; 
-//форм компонент
-//lbd yb;ybq
+import { checkAuth, login } from "../../store/slices/authSlice";
 
 const Authorization = () => {
-    const dispatch = useDispatch(); //для отправки , селектор чтобы извлеьч state = state.auth.isAuth
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector(state => state.auth.isAuth);
+    const user = useSelector(state => state.auth.user); // Получаем пользователя
+    const navigate = useNavigate();
 
-    const handleLogin = () => {
-        dispatch(login({ email, password })); // Отправляем данные в Redux
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
+    useEffect(() => {
+        console.log(isAuthenticated)
+        if (isAuthenticated) {
+            navigate('/project'); // Перенаправление на главную страницу
+        }
+    }, [isAuthenticated, user, navigate]);
+
+    const handleLogin = async (event) => {
+        event.preventDefault();
+
+        const action = await dispatch(login({ email, password }));
+
+        if (login.fulfilled.match(action)) {
+            console.log('Авторизация прошла успешно');
+            navigate('/project'); 
+            
+        } else {
+            console.error('Не удалось авторизоваться:', action.error);
+        }
     };
 
     return (
         <main>
             <p className="text_mnt_f60_l60">SSN</p>
             <p className="text_mln_f36_l36">Entrance to the system</p>
-            <form action="">
-                <input onChange={e => setEmail(e.target.value)} value={email} type="text" placeholder="Login" />
-                <img src={Login} alt="Login" />
+            <form onSubmit={handleLogin}>
+                <div className="form">
+                    <input
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                        type="text"
+                        placeholder="Login"
+                    />
+                    <img src={Login} alt="Login" />
+                </div>
+                <div className="form">
+                    <input
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        type="password"
+                        placeholder="Password"
+                    />
+                    <img src={Password} alt="Password" />
+                </div>
+                <div className="check">
+                    <input type="checkbox" />
+                    <p className="text_mln_f22_l22">Non-disclosure agreement</p>
+                </div>
+                <button type="submit">
+                    <p className="text_mln_f26_l26">Authorisation</p>
+                </button>
             </form>
-            <form action="">
-                <input onChange={e => setPassword(e.target.value)} value={password} type="password" placeholder="Password" />
-                <img src={Password} alt="Password" />
-            </form>
-            <div className="check">
-                <input type="checkbox"/>
-                <p className="text_mln_f22_l22">Non-disclosure agreement</p>
-            </div>
-            <button type="button" onClick={handleLogin}>
-                <p className="text_mln_f26_l26">Authorisation</p>
-            </button>
+
             <div className="restore_item">
                 <div className="restore">
                     <p className="text_mln_f22_l22">Restore login</p>

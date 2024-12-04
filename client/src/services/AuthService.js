@@ -1,21 +1,24 @@
-import $api from "../http/index";
-import {API_ENDPOINTS} from '../http/apiEndpoints'
+import $api, {API_URL} from "../http/index";
+import { API_ENDPOINTS } from "../http/apiEndpoints";
+import BaseService from "./BaseService";
+import axios from "axios";
 
-export default class AuthService {
-    static async login(email, password) {
-        const response = await $api.post(API_ENDPOINTS.USER.LOGIN, { email, password });
-        //обработать ошибки
+class AuthService extends BaseService {
+    async login(email, password) {
+        const response = await BaseService.request("post", API_ENDPOINTS.USER.LOGIN, { email, password });
+
         const authResponse = {
-            accessToken: response.data.accessToken,
-            refreshToken: response.data.refreshToken,
+            accessToken: response.accessToken,
+            refreshToken: response.refreshToken,
             user: {
-                id: response.data.user.id,
-                role: response.data.user.role
+                id: response.user.id,
+                role: response.user.role,
             },
         };
-        console.log(authResponse);
-        return authResponse; // Возвращаем весь объект ответа
+        
+        return authResponse; // Успешный ответ
     }
+
     ///////
     /* static async registration(email, password) {
         try {
@@ -28,7 +31,7 @@ export default class AuthService {
         }
     } */
 
-    static async logout() {
+    async logout() {
         try {
             return $api.post("/logout");
         } catch (error) {
@@ -36,4 +39,19 @@ export default class AuthService {
             throw error; // Обработка ошибок
         }
     }
+
+    static createAuthResponse(data) {
+        return {
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+            user: {
+                id: data.user.id,
+                role: data.user.role,
+            },
+        };
+    }
 }
+
+const authServiceInstance = new AuthService();
+
+export default authServiceInstance;

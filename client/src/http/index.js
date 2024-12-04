@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_ENDPOINTS } from './apiEndpoints';
 
 export const API_URL = 'http://localhost:5000/api';
 
@@ -12,19 +13,26 @@ $api.interceptors.request.use((config) => {
     return config;
 })
 
-$api.interceptors.response.use((config) =>{
+$api.interceptors.request.use((config) =>{
     return config;
-}, (error =>{
-    const originalRequest = error.config
+}, async (error) => {
+    const originalRequest = error.config;
+
     if(error.response.status == 401 && error.config && !error.config._isRetry){
-        //originalrequest._isRetry = true;
-        //try
-             //   const response = await axios.get(`${API_URL}/refresh`, { withCredentials: true }); //ендпоинт на рефреш
-             // localStorage.setItem('token',response.data.accessToken)
-             //return $api.request(originalRequest);
-             //catch (не авторизован)
+        originalRequest._isRetry = true;
+
+        try{
+            const response = await axios.get(`${API_URL}/user/refresh`, {withCredentials: true})
+            localStorage.setItem('token', response.data.accessToken);
+    
+            return $api.request(originalRequest);
+        } catch(e){
+            console.log('не авторизован')
+        }
+
     }
-    throw error
-}))
+
+    throw error;
+})
 
 export default $api;
