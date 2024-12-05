@@ -1,12 +1,12 @@
-import $api, {API_URL} from "../http/index";
+import $api from "../http/index";
 import { API_ENDPOINTS } from "../http/apiEndpoints";
 import BaseService from "./BaseService";
-import axios from "axios";
 
 class AuthService extends BaseService {
     async login(email, password) {
         const response = await BaseService.request("post", API_ENDPOINTS.USER.LOGIN, { email, password });
 
+        //поменять на метод
         const authResponse = {
             accessToken: response.accessToken,
             refreshToken: response.refreshToken,

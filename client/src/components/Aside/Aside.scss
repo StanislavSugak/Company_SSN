@@ -1,0 +1,59 @@
+@import "../../styles/global";
+
+aside{
+    @extend .container_between;
+    align-items: flex-start;
+    flex-direction: column;
+    height: auto;
+    min-height: 600px;
+    max-width: 280px;
+    width: 100%;
+    background-color: $first_color;
+    position: relative;
+    padding: 45px 0 50px 50px;
+    box-sizing: border-box;
+
+    &::before { //псевдоэлемент для внутренней границы
+        content: ''; 
+        position: absolute; // Позиционирование относительно родителя
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-left: 0.5px solid $border_color; 
+        pointer-events: none; // Игнорируем события мыши
+        z-index: 1; 
+    }
+
+    ul{
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        li{
+            height: 32px;
+            display: flex;
+            gap: 20px;
+
+            img{
+                height: 20px;
+                width: 20px;
+                margin: 8px 0 4px 0;
+            }
+
+            a {
+                @extend .text_mln_f22_l22;
+                text-decoration: none; 
+                margin: 4px 0 6px 0;
+    
+            }
+        }    
+    }
+    
+    ul:nth-of-type(2) li:last-child a {
+        color: $rose_color;
+    }
+}

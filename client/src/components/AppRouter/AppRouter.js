@@ -1,32 +1,51 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { employeeRoutes, teamleadRoutes } from '../../routes';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'; // Импортируйте ваш компонент
-import Authorization from '../../pages/Authorization/Authorization';
+import React, { useEffect, useNavigate } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { teamleadRoutes, employeeRoutes, commonRoutes, basicRoutes } from "../../routes";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import Authorization from "../../pages/Authorization/Authorization";
+import Project from "../../pages/Project/Project";
+import Employee from "../../pages/Employee/Employee";
+import Shaping from "../../pages/Shaping/Shaping";
+import Analitic from "../../pages/Analitic/Analitic";
+import Workspace from "../../pages/Workspace/Workspace";
 
 const AppRouter = () => {
-    const user = useSelector((state) => state.auth);
-    
+    const auth = useSelector((state) => state.auth.isAuth);
+    const role = useSelector((state) => state.auth.user.role);
+
+    console.log('Авторизирован')
+    console.log(auth)
+
+    const dispatch = useDispatch();
+
     return (
         <Routes>
-            {/* Используем ProtectedRoute для защищённых маршрутов teamlead */}
-            {user.isAuth && teamleadRoutes.map(({ path, Component }) => (
-                <Route key={path} path={path} element={<ProtectedRoute element={<Component />} />} 
-                />
-            ))}
+            {auth ? (
+                <>
+                    {/* Отображение маршрутов в зависимости от роли пользователя */}
+                    {role === 'teamlead' && teamleadRoutes.map(({ path, Component }) => (
+                        <Route key={path} path={path} element={<Component />} />
+                    ))}
+                    {employeeRoutes.map(({ path, Component }) => (
+                        <Route key={path} path={path} element={<Component />} />
+                    ))}
+                    {commonRoutes.map(({ path, Component }) => (
+                        <Route key={path} path={path} element={<Component />} />
+                    ))}
+                    {basicRoutes.map(({ path, Component }) => (
+                        <Route key={path} path={path} element={<Component />} />
+                    ))}
 
-            {/* Используем ProtectedRoute для защищённых маршрутов employee, если требуется */}
-            {user.isAuth && employeeRoutes.map(({ path, Component }) => (
-                <Route key={path} path={path} element={<ProtectedRoute element={<Component />} />} 
-                />
-            ))}
-
-            {/* Если не авторизованы, перенаправляем на страницу логина */}
-            <Route path="/login" element={<Authorization />} />
-
-            {/* Перенаправление на главную страницу или другую страницу по умолчанию */}
-            <Route path="*" element={<Navigate to="/login" />} />
+                    <Route path="*" element={<Navigate to="/project" />} />
+                </>
+            ) : (
+                <>
+                    {/* Если пользователь не авторизован, перенаправляем на страницу логина */}
+                    <Route path="/login" element={<Authorization />} />
+                    <Route path="*" element={<Navigate to="/login" />} />
+                </>
+            )}
         </Routes>
     );
 };

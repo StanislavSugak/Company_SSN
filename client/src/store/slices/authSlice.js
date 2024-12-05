@@ -23,8 +23,8 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 
 export const checkAuth = createAsyncThunk('auth/refresh', async () =>{
     const response = await axios.get(`${API_URL}/user/refresh`, {withCredentials: true})
-    localStorage.setItem('token', response.accessToken);
-    return response; 
+    localStorage.setItem('token', response.data.accessToken);
+    return response.data; 
 });
 
 const authSlice = createSlice({
@@ -36,6 +36,7 @@ const authSlice = createSlice({
         }, // Начальное состояние пользователя
         isAuth: false,
         isLoading: false,
+        
     },
     reducers: {
         setAuth(state, action) {
@@ -61,6 +62,10 @@ const authSlice = createSlice({
             })
             .addCase(checkAuth.pending, (state, action) => {
                 state.isLoading = true;
+                console.log('121')
+                console.log(state.isAuth);
+                console.log('222')
+                console.log(state.isLoading);
             })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 state.isAuth = true;

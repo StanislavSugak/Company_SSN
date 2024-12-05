@@ -10,7 +10,7 @@
     box-sizing: border-box; /* Учитываем padding в ширине */
 }
 
-main {
+.authorization {
     @extend .container_center;
     flex-direction: column;
     padding: 120px 0;
@@ -107,14 +107,14 @@ main {
 }
 
 @media (max-width: 470px) {
-    main{
+    .authorization{
         padding: 120px 10px;
         box-sizing: border-box;
     }
 }
 
 @media (max-width: 356px) {
-    main{
+    .authorization{
 
         p:nth-of-type(2) {
             text-align: center;

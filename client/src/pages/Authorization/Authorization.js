@@ -8,19 +8,19 @@ import { checkAuth, login } from "../../store/slices/authSlice";
 
 const Authorization = () => {
     const dispatch = useDispatch();
-    const isAuthenticated = useSelector(state => state.auth.isAuth);
+
     const user = useSelector(state => state.auth.user); // Получаем пользователя
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    useEffect(() => {
-        console.log(isAuthenticated)
-        if (isAuthenticated) {
-            navigate('/project'); // Перенаправление на главную страницу
-        }
-    }, [isAuthenticated, user, navigate]);
+    // useEffect(() => {
+    //     console.log(isAuthenticated)
+    //     if (isAuthenticated) {
+    //         navigate('/project'); // Перенаправление на главную страницу
+    //     }
+    // }, [isAuthenticated, user, navigate]);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -37,7 +37,7 @@ const Authorization = () => {
     };
 
     return (
-        <main>
+        <main className="authorization">
             <p className="text_mnt_f60_l60">SSN</p>
             <p className="text_mln_f36_l36">Entrance to the system</p>
             <form onSubmit={handleLogin}>
