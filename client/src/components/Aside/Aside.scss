@@ -12,6 +12,8 @@ aside{
     position: relative;
     padding: 45px 0 50px 50px;
     box-sizing: border-box;
+    transition: transform 0.3s ease; /* Плавный переход для анимации */
+    z-index: 1000; /* Чтобы быть выше других элементов */
 
     &::before { //псевдоэлемент для внутренней границы
         content: ''; 
@@ -23,6 +25,14 @@ aside{
         border-left: 0.5px solid $border_color; 
         pointer-events: none; // Игнорируем события мыши
         z-index: 1; 
+    }
+
+    &.closed {
+        transform: translateX(101%); 
+    }
+    
+    &.open {
+        transform: translateX(0); 
     }
 
     ul{
@@ -52,8 +62,19 @@ aside{
             }
         }    
     }
-    
+
     ul:nth-of-type(2) li:last-child a {
         color: $rose_color;
+    }
+}
+
+@media (max-width: 1025px) {
+    aside{
+        position: absolute;
+        min-height: 0;
+        height: 100%;
+        top: 0;
+        right: 0;
+        
     }
 }
