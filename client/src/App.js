@@ -4,8 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter/AppRouter";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import Loading from "./components/Loading/Loading";
 import './styles/_body.scss'
 import { checkAuth } from "./store/slices/authSlice";
+import Aside from "./components/Aside/Aside";
+import Main from "./components/Main/Main";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -26,11 +29,9 @@ const App = () => {
     return (
         <BrowserRouter>
             <Header />
-            {isInitialized ? (
-                <AppRouter />
-            ) : (
-                <div>Loading...</div> // Индикатор загрузки между Header и Footer
-            )}
+            <Main>
+                {isInitialized ? ( <AppRouter /> ) : ( <Loading /> )}
+            </Main>
             <Footer />
         </BrowserRouter>
     );

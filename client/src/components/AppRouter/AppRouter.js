@@ -9,6 +9,7 @@ import Employee from "../../pages/Employee/Employee";
 import Shaping from "../../pages/Shaping/Shaping";
 import Analitic from "../../pages/Analitic/Analitic";
 import Workspace from "../../pages/Workspace/Workspace";
+import Aside from "../Aside/Aside";
 
 const AppRouter = () => {
     const auth = useSelector((state) => state.auth.isAuth);
@@ -20,33 +21,35 @@ const AppRouter = () => {
     const dispatch = useDispatch();
 
     return (
-        <Routes>
-            {auth ? (
-                <>
-                    {/* Отображение маршрутов в зависимости от роли пользователя */}
-                    {role === 'teamlead' && teamleadRoutes.map(({ path, Component }) => (
-                        <Route key={path} path={path} element={<Component />} />
-                    ))}
-                    {employeeRoutes.map(({ path, Component }) => (
-                        <Route key={path} path={path} element={<Component />} />
-                    ))}
-                    {commonRoutes.map(({ path, Component }) => (
-                        <Route key={path} path={path} element={<Component />} />
-                    ))}
-                    {basicRoutes.map(({ path, Component }) => (
-                        <Route key={path} path={path} element={<Component />} />
-                    ))}
+        <>
+            <Routes>
+                {auth ? (
+                    <>
+                        {/* Отображение маршрутов в зависимости от роли пользователя */}
+                        {role === 'teamlead' && teamleadRoutes.map(({ path, Component }) => (
+                            <Route key={path} path={path} element={<Component />} />
+                        ))}
+                        {employeeRoutes.map(({ path, Component }) => (
+                            <Route key={path} path={path} element={<Component />} />
+                        ))}
+                        {commonRoutes.map(({ path, Component }) => (
+                            <Route key={path} path={path} element={<Component />} />
+                        ))}
+                        {basicRoutes.map(({ path, Component }) => (
+                            <Route key={path} path={path} element={<Component />} />
+                        ))}
 
-                    <Route path="*" element={<Navigate to="/project" />} />
-                </>
-            ) : (
-                <>
-                    {/* Если пользователь не авторизован, перенаправляем на страницу логина */}
-                    <Route path="/login" element={<Authorization />} />
-                    <Route path="*" element={<Navigate to="/login" />} />
-                </>
-            )}
-        </Routes>
+                        <Route path="*" element={<Navigate to="/project" />} />
+                    </>
+                ) : (
+                    <>
+                        {/* Если пользователь не авторизован, перенаправляем на страницу логина */}
+                        <Route path="/login" element={<Authorization />} />
+                        <Route path="*" element={<Navigate to="/login" />} />
+                    </>
+                )}
+            </Routes>
+        </>
     );
 };
 

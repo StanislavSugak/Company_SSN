@@ -1,0 +1,13 @@
+main{
+    display: flex;
+    width: 100%;
+
+    .children{
+        min-height: 600px;
+        width: 100%;
+        flex-grow: 1;
+        transition: margin-left 0.3s ease; 
+    }
+
+
+}
