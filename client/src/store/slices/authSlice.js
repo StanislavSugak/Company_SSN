@@ -9,6 +9,7 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }) 
     localStorage.setItem('token', response.accessToken);
     return response;
 });
+
 //уведовления 
 export const registration = createAsyncThunk('auth/registration', async ({ email, password }) => {
     const response = await AuthService.registration(email, password);
@@ -62,10 +63,10 @@ const authSlice = createSlice({
             })
             .addCase(checkAuth.pending, (state, action) => {
                 state.isLoading = true;
-                console.log('121')
-                console.log(state.isAuth);
-                console.log('222')
-                console.log(state.isLoading);
+                // console.log('121')
+                // console.log(state.isAuth);
+                // console.log('222')
+                // console.log(state.isLoading);
             })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 state.isAuth = true;

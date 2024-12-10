@@ -6,7 +6,7 @@ const authMiddleware = require('../middleware/authMiddleware') //второй п
 const checkRoleMiddleware = require('../middleware/checkRoleMiddleware')
 const checkRole = require('../middleware/checkRoleMiddleware')
 
-router.post('/registration', checkRole('teamlead'), body('password').isLength({min: 2, max: 32}), userController.registration)
+router.post('/registration', body('password').isLength({min: 2, max: 32}), userController.registration)
 router.post('/login', userController.login)
 router.post('/logout', userController.logout)
 router.get('/refresh', userController.refresh)

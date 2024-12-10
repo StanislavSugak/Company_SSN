@@ -61,13 +61,13 @@ class UserService {
         if (!refreshToken) {
             throw ApiError.badRequest("Токен не предоставлен");
         }
-        console.log('sdfffffffffffffffffffffffffffffffff')
-        console.log(refreshToken)
+        //console.log('sdfffffffffffffffffffffffffffffffff')
+        //console.log(refreshToken)
         const userData = tokenService.validateRefreshToken(refreshToken);
         const tokenFromDb = await tokenService.findToken(refreshToken);
-        console.log('wwwwwwwwwwwwwwwwwwwwwwwww1252413243524324353244')
-        console.log(userData)
-        console.log(tokenFromDb)
+        //console.log('wwwwwwwwwwwwwwwwwwwwwwwww1252413243524324353244')
+        //console.log(userData)
+        //console.log(tokenFromDb)
 
         if (!userData || !tokenFromDb) {
             console.log('1252413243524324353244')

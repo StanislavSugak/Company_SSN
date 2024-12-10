@@ -3,7 +3,7 @@ const router = new Router()
 const directionController = require('../controllers/directionController')
 const checkRole = require('../middleware/checkRoleMiddleware')
 
-router.post('/', checkRole('teamlead'), directionController.create)
+router.post('/', directionController.create)
 router.get('/', directionController.getAll)
 router.get('/:id', directionController.getOne)
 

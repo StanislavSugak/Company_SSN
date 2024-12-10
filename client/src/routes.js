@@ -33,7 +33,7 @@ export const employeeRoutes = [
     {
         path: ANALITIC_ROUTE,
         Component: Analitic,
-        name: "analitic",
+        name: "analytic",
         image: IcAnalic
     },
     {

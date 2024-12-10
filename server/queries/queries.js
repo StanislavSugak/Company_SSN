@@ -1,0 +1,7 @@
+const GET_PROJECTS_DATA_BY_EMPLOYEE = `SELECT * FROM GetProjectsDataByEmployee($1)`;
+const GET_PROJECTS_DATA_BY_TEAMLEAD = `SELECT * FROM GetProjectsDataByTeamlead($1)`;
+
+module.exports = {
+    GET_PROJECTS_DATA_BY_EMPLOYEE,
+    GET_PROJECTS_DATA_BY_TEAMLEAD,
+};

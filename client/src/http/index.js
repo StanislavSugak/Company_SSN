@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { API_ENDPOINTS } from './apiEndpoints';
 
 export const API_URL = 'http://localhost:5000/api';
 
@@ -18,7 +17,7 @@ $api.interceptors.request.use((config) =>{
 }, async (error) => {
     const originalRequest = error.config;
 
-    if(error.response.status == 401 && error.config && !error.config._isRetry){
+    if(error.response.status === 401 && error.config && !error.config._isRetry){
         originalRequest._isRetry = true;
 
         try{

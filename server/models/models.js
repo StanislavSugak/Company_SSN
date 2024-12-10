@@ -4,7 +4,10 @@ const {DataTypes} = require('sequelize')
 const Direction = sequelize.define('direction', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     direction: {type: DataTypes.STRING(30), allowNull: true}
-})
+}, {
+    timestamps: false
+});
+
 
 const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -12,7 +15,9 @@ const User = sequelize.define('user', {
     email: {type: DataTypes.STRING(45), unique: true, allowNull: true},
     password: {type: DataTypes.STRING, allowNull: true},
     id_direction: {type: DataTypes.INTEGER, references: { model: Direction, key: 'id' }}
-})
+}, {
+    timestamps: false
+});
 
 const User_Personal = sequelize.define('user_personal', {
     id_user: {type: DataTypes.INTEGER, primaryKey: true, references: { model: User, key: 'id' }},
@@ -28,12 +33,16 @@ const User_Personal = sequelize.define('user_personal', {
     telegram_name: {type: DataTypes.STRING(35)},
     linkedIn_name: {type: DataTypes.STRING(35)},
     date_hire: {type: DataTypes.DATE, allowNull: true}
-})
+}, {
+    timestamps: false
+});
 
 const Refresh_Token = sequelize.define('refresh_token', {
     id_user: {type: DataTypes.INTEGER, primaryKey: true, references: { model: User, key: 'id' }},
     refresh_token: {type: DataTypes.STRING, allowNull: true},
-})
+}, {
+    timestamps: false
+});
 
 const Project = sequelize.define('project', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -44,20 +53,26 @@ const Project = sequelize.define('project', {
     date_end: {type: DataTypes.DATE},
     bus_factor: {type: DataTypes.INTEGER, defaultValue: 0, allowNull: true},
     id_teamlead: {type: DataTypes.INTEGER, references: { model: User, key: 'id' }},
-})
+}, {
+    timestamps: false
+});
 
 const Stack = sequelize.define('stack', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING(25), allowNull: true},
     type: {type: DataTypes.STRING(15), allowNull: true},
     id_direction: {type: DataTypes.INTEGER, references: { model: Direction, key: 'id' }}
-})
+}, {
+    timestamps: false
+});
 
 const Project_Stack = sequelize.define('project_stack', {
     id_project: {type: DataTypes.INTEGER, primaryKey: true, references: { model: Project, key: 'id' }},
     id_stack: {type: DataTypes.INTEGER, primaryKey: true, references: { model: Stack, key: 'id' }},
     count_required: {type: DataTypes.INTEGER, allowNull: true}
-})
+}, {
+    timestamps: false
+});
 
 const User_Stack = sequelize.define('user_stack', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -65,13 +80,17 @@ const User_Stack = sequelize.define('user_stack', {
     id_stack: {type: DataTypes.INTEGER, references: { model: Stack, key: 'id' }},
     grade: {type: DataTypes.INTEGER, allowNull: true},
     is_mentor: {type: DataTypes.BOOLEAN, allowNull: true}
-})
+}, {
+    timestamps: false
+});
 
 const Project_User = sequelize.define('project_user', {
     id_project: {type: DataTypes.INTEGER, primaryKey: true, references: { model: Project, key: 'id' }},
     id_user_stack: {type: DataTypes.INTEGER, primaryKey: true, references: { model: User_Stack, key: 'id' }},
     raiting: {type: DataTypes.INTEGER}
-})
+}, {
+    timestamps: false
+});
 
 const User_Learn = sequelize.define('user_learn', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -80,7 +99,9 @@ const User_Learn = sequelize.define('user_learn', {
     date_enter: {type: DataTypes.DATE, allowNull: true},
     date_end: {type: DataTypes.DATE},
     grade: {type: DataTypes.INTEGER}
-})
+}, {
+    timestamps: false
+});
 
 const User_Learn_History = sequelize.define('user_learn_history', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -88,7 +109,9 @@ const User_Learn_History = sequelize.define('user_learn_history', {
     date_learn: {type: DataTypes.DATE, allowNull: true}, 
     type: {type: DataTypes.STRING(30), allowNull: true},
     grade: {type: DataTypes.INTEGER, allowNull: true}
-})
+}, {
+    timestamps: false  
+});
 
 Direction.hasMany(User, {foreignKey: 'id_direction',sourceKey: 'id', as:'user'});
 User.belongsTo(Direction, { foreignKey: 'id_direction',targetKey: 'id', as:'direction'});
@@ -121,7 +144,7 @@ Project.hasMany(Project_User, {foreignKey: 'id_project',sourceKey: 'id', as:'pro
 Project_User.belongsTo(Project, { foreignKey: 'id_project',targetKey: 'id', as:'project'});
 
 User_Stack.hasMany(Project_User, {foreignKey: 'id_user_stack',sourceKey: 'id', as:'project_user'});
-Project_User.belongsTo(User_Stack, { foreignKey: 'id_user_stack',targetKey: 'id', as:'usre_stack'});
+Project_User.belongsTo(User_Stack, { foreignKey: 'id_user_stack',targetKey: 'id', as:'user_stack'});
 
 Stack.hasMany(User_Learn, {foreignKey: 'id_stack',sourceKey: 'id', as:'user_learn'});
 User_Learn.belongsTo(Stack, { foreignKey: 'id_stack',targetKey: 'id', as:'stack'});

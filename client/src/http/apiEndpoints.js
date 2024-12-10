@@ -6,5 +6,8 @@ export const API_ENDPOINTS = {
         REFRESH: 'user/refresh',
         GET_USER: 'user/',
     },
+    PROJECT: {
+        GET_PROJECTS: 'project/',
+    }
     //
 };

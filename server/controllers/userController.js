@@ -38,8 +38,8 @@ class UserController extends Controller {
         if (!userData) {
             throw ApiError.unauthorized("Неверный email или пароль");
         }
-        console.log('sdfsdfsdfrefresssss')
-        console.log(userData.refreshToken)
+        //console.log('sdfsdfsdfrefresssss')
+        //console.log(userData.refreshToken)
         res.cookie("refreshToken", userData.refreshToken, {
             maxAge: 30 * 24 * 60 * 60 * 1000, // 30 дней
             httpOnly: true,
@@ -63,7 +63,7 @@ class UserController extends Controller {
         const userData = await userService.refresh(refreshToken);
 
         res.cookie("refreshToken", userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true,});
-        console.log('ttttttttttttyyyy')
+        //console.log('ttttttttttttyyyy')
         return res.json(userData);
     }
 

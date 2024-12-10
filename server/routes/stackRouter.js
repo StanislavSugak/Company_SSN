@@ -3,7 +3,7 @@ const router = new Router()
 const stackController = require('../controllers/stackController')
 const checkRole = require('../middleware/checkRoleMiddleware')
 
-router.post('/', checkRole('teamlead'), stackController.create)
+router.post('/', stackController.create)
 router.get('/', stackController.getAll)
 router.get('/:id', stackController.getOne)
 

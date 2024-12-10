@@ -31,7 +31,7 @@ class TokenService{
     async saveToken(id_user, refreshToken){
         const tokenData = await Refresh_Token.findOne({where: {id_user}})
         if(tokenData){
-            console.log('dfsdfsdfsdftyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyt')
+            //console.log('dfsdfsdfsdftyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyt')
             tokenData.refresh_token = refreshToken;
             return tokenData.save();
         }
@@ -48,9 +48,9 @@ class TokenService{
 
     async findToken(refreshToken){
         const tokenData = await Refresh_Token.findOne({where: {refresh_token: refreshToken}})
-        console.log('dsffsdfsd35654534244463543')
-        console.log(refreshToken)
-        console.log(tokenData)
+       // console.log('dsffsdfsd35654534244463543')
+      //  console.log(refreshToken)
+      //  console.log(tokenData)
         return tokenData;
     }
 }
