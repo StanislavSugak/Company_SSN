@@ -1,26 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./Authorization.scss";
 import Login from "../../assets/icons/login.svg";
 import Password from "../../assets/icons/password.svg";
-import { checkAuth, login } from "../../store/slices/authSlice";
+import { login } from "../../store/slices/authSlice";
 
 const Authorization = () => {
     const dispatch = useDispatch();
-
-    const user = useSelector(state => state.auth.user); // Получаем пользователя
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    // useEffect(() => {
-    //     console.log(isAuthenticated)
-    //     if (isAuthenticated) {
-    //         navigate('/project'); // Перенаправление на главную страницу
-    //     }
-    // }, [isAuthenticated, user, navigate]);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -29,8 +20,7 @@ const Authorization = () => {
 
         if (login.fulfilled.match(action)) {
             console.log('Авторизация прошла успешно');
-            navigate('/project'); 
-            
+            navigate('/project');    
         } else {
             console.error('Не удалось авторизоваться:', action.error);
         }
@@ -42,21 +32,11 @@ const Authorization = () => {
             <p className="text_mln_f36_l36">Entrance to the system</p>
             <form onSubmit={handleLogin}>
                 <div className="form">
-                    <input
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                        type="text"
-                        placeholder="Login"
-                    />
+                    <input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Login" />
                     <img src={Login} alt="Login" />
                 </div>
                 <div className="form">
-                    <input
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        type="password"
-                        placeholder="Password"
-                    />
+                    <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="Password" />
                     <img src={Password} alt="Password" />
                 </div>
                 <div className="check">
@@ -67,7 +47,6 @@ const Authorization = () => {
                     <p className="text_mln_f26_l26">Authorisation</p>
                 </button>
             </form>
-
             <div className="restore_item">
                 <div className="restore">
                     <p className="text_mln_f22_l22">Restore login</p>

@@ -24,17 +24,14 @@ class ProjectController extends Controller {
 
     async getAll (req, res) {
         const { id_user, role } = req.query;
-        console.log(req.query, 'Request body');
-        console.log(id_user, 'sdfsdfdsfsdfsdfsdf111111111111111111')
-        console.log(role, '1111111111111111111111sdfsdfdsfsdfsdfsdf111111111111111111')
+
         Controller.checkId(id_user);
 
-        // Используем метод getProjectsByUser для получения проектов
         const projects = await projectService.getProjectsByUser(id_user, role);
 
-        console.log(JSON.stringify(projects, null, 2))
         return res.json(projects);
     };
 }
 
 module.exports = new ProjectController();
+

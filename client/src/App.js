@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter/AppRouter";
 import Header from "./components/Header/Header";
@@ -7,12 +7,11 @@ import Footer from "./components/Footer/Footer";
 import Loading from "./components/Loading/Loading";
 import './styles/_body.scss'
 import { checkAuth } from "./store/slices/authSlice";
-import Aside from "./components/Aside/Aside";
 import Main from "./components/Main/Main";
 
 const App = () => {
     const dispatch = useDispatch();
-    const loading = useSelector(state => state.auth.isLoading);
+    
     const [isInitialized, setIsInitialized] = useState(false);
 
     useEffect(() => {

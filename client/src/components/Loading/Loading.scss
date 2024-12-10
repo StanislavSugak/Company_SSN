@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 
     p{
         padding-top: 15px;
@@ -14,16 +15,13 @@
 .loading{
     @extend .base_loading;
     min-height: 1363px;
-    background-color: #fff;
-    width: 100%;
-    
+
 }
 
 
 .loading_other{
     @extend .base_loading;
     min-height: 600px;
-    width: 100%;
 }
 
 .dot-container {

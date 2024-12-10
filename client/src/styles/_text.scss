@@ -115,10 +115,35 @@
     color: $white_item_color;
 }
 
+.text_mln_f20_l24 {
+    @extend .text_Mallanna;
+
+    font-size: 20px; 
+    line-height: 24px;
+    letter-spacing: 0.2px;
+    color: $white_item_color;
+}
+
 .text_mln_f20_l20 {
     @extend .text_Mallanna;
 
-    font-size: 22px; 
-    line-height: 22px;
+    font-size: 20px; 
+    line-height: 20px;
+    color: $white_item_color;
+}
+
+.text_mln_f16_l16{
+    @extend .text_Mallanna;
+
+    font-size: 16px; 
+    line-height: 16px;
+    color: $black_item_color;
+}
+
+.text_mln_f14_l14{
+    @extend .text_Mallanna;
+
+    font-size: 14px; 
+    line-height: 14px;
     color: $white_item_color;
 }

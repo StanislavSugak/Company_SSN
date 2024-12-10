@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './Project.scss';
-import Aside from '../../components/Aside/Aside';
 import { getProjects } from "../../store/slices/projectSlice";
 import Loading from "../../components/Loading/Loading";
-
+import ProjectCard from "../../components/ProjectCard/ProjectCard";
+import CreateIcon from '../../assets/icons/create_card.svg'
 
 const Project = () => {
     const isAuthenticated = useSelector(state => state.auth.isAuth);
@@ -17,7 +17,7 @@ const Project = () => {
 
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 3000);
+        }, 1000);
 
         return () => clearTimeout(timer);
     }, [dispatch]);
@@ -27,9 +27,27 @@ const Project = () => {
             {loading || isLoading ? (
                 <Loading />
             ) : (
-                <div>
-                    <h1>Projects</h1>
+                <>
+                <div className="header_project">
+                    <div className="header_project_main">
+
+                    </div>
+                    <div className="header_project_line"></div>
                 </div>
+                <div className="cards">
+                    {projects.map(project => {
+                        return <ProjectCard key={project.project_id} project={project} />;
+                    })}
+                    <div className="create_card">
+                        <button className="create_task_plus">
+                            <img src={CreateIcon} alt="fail" />
+                        </button>
+                        <button className="create_task_button">
+                            <p className="text_mln_f20_l20">Create task</p>
+                        </button>
+                    </div>
+                </div>
+                </>
             )}
          </>
     );
