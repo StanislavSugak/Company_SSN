@@ -1,0 +1,143 @@
+@import "../../styles/global";
+
+.modal_line{
+    width: 100%;
+    height: 1px;
+    border-radius: 1px;
+    background-color: $white_item_color;
+}
+
+.modal_line_none{
+    @extend .modal_line;
+
+    background-color: transparent;
+}
+
+.button{
+    @extend .container_center;
+
+    width: 100px;
+    height: 35px;
+    border-radius: 20px;
+    border: 0;
+}   
+
+.button_back{
+    @extend .button;
+
+    background-color: $button_db;
+}
+
+.button_next{
+    @extend .button;
+
+    background-color: $button_d5;
+}
+
+.button_field{
+    @extend .container_center;
+    gap: 10px;
+
+    justify-content: flex-start;
+    height: fit-content;
+}
+
+
+.text_main{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    >p:nth-of-type(1){
+        padding-top: 2px;
+    }
+
+    >p:nth-of-type(2){
+        color: $gray_text_999;
+    }
+}
+
+
+.employee_team{
+    height: 45px;
+    display: flex;
+    gap: 20px;
+
+        .employee_team_image{
+            height: 45px;
+            width: 45px;
+            border-radius: 45px;
+            background-color: #fff;
+        }
+}
+
+.form_data{
+    @extend .container_between;
+    gap:15px;
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    position: relative;
+
+    &::before { //псевдоэлемент для внутренней границы
+        content: ''; 
+        position: absolute; // Позиционирование относительно родителя
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 1px;
+        border-bottom: 1px solid $gray_text_999; 
+        pointer-events: none; // Игнорируем события мыши
+        z-index: 1; 
+    }
+
+    >input{
+        @extend .text_mln_f16_l16;
+        width: 100%;
+        background-color: transparent;
+        border: 0;
+        outline: none;
+        color: $gray_text_999;
+    }
+
+    >input::placeholder {
+        color: $gray_text_999; /* Цвет плейсхолдера */
+    }
+
+    >img{
+        height: 18px;
+        width: 18px;
+    }
+}
+
+.component_container{
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+}
+
+.pagination_dots {
+    display: flex;
+    margin: 5px 0;
+
+    gap: 10px;
+    justify-content: flex-end;
+
+    .dot {
+        cursor: pointer;
+        width: 8px; 
+        height: 8px; 
+        border-radius: 10px; 
+        background-color: transparent; 
+        border: 1px solid $white_item_color;
+    }
+    
+    .dot.active {
+        background-color: $white_item_color; 
+    }
+}
+

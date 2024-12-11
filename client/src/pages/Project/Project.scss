@@ -1,23 +1,38 @@
 @import "../../styles/global";
 
-.header_project{
-    margin: 35px 30px 0 75px;
+.header_project_search {
+    @extend .container_center;
+    justify-content: flex-start;
+    gap: 15px;
+    width: 260px;
+    height: 40px;
+    background-color: $white_bc_5;
+    border-radius: 17px;
+    position: absolute;
+    top: 0;
+    right: 0;
 
-    .header_project_main{
-        height: 176px;
-        background-color: #fff;
-
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 17px;
+        border: 1px solid $rose_color;
+        pointer-events: none; // Игнорируем события мыши
+        z-index: 1;
     }
 
-    .header_project_line{
-        height: 1px;
-        border-radius: 1px;
-        background-color: $white_item_color;
-        margin-top: 35px;
+    img {
+        height: 20px;
+        width: 20px;
+        margin-left: 20px;
     }
 }
 
-.cards{
+.cards {
     @extend .container_center;
     flex-wrap: wrap;
     gap: 40px;
@@ -26,8 +41,7 @@
     width: 100%;
     box-sizing: border-box;
 
-
-    .create_card{
+    .create_card {
         @extend .container_center;
 
         width: 300px;
@@ -38,9 +52,9 @@
         flex-direction: column;
         position: relative;
 
-        &::before { 
-            content: ''; 
-            position: absolute; 
+        &::before {
+            content: "";
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
@@ -48,10 +62,10 @@
             border-radius: 10px 10px 20px 20px;
             border: 3px solid $rose_color;
             pointer-events: none; // Игнорируем события мыши
-            z-index: 1; 
+            z-index: 1;
         }
 
-        .create_task_plus{
+        .create_task_plus {
             @extend .container_center;
 
             width: 50px;
@@ -60,20 +74,29 @@
             border-radius: 0 10px 0 20px;
             border: 0;
             position: absolute;
-            top:0;
+            top: 0;
             right: 0;
             cursor: pointer;
         }
 
-        .create_task_button{
+        .create_task_button {
             border: 0;
-            cursor: pointer; 
+            cursor: pointer;
             padding: 0;
             background-color: transparent;
 
-            p{
-              color: $rose_color;  
+            p {
+                color: $rose_color;
             }
         }
+    }
+}
+
+@media (max-width: 1025px) {
+    .cards {
+        padding: 45px 10px;
+        max-width: 683px;
+        width: 100%;
+        box-sizing: border-box;
     }
 }

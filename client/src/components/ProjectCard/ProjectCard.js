@@ -1,20 +1,56 @@
 import React, { useState } from "react";
+import {useSelector} from 'react-redux'
 import "./ProjectCard.scss";
-import LastProject from "../../assets/image/last_project.svg";
-import NowProject from "../../assets/image/now_project.svg";
-import FutureProject from "../../assets/image/future_project.svg";
-import ProjectMain from "../../assets/icons/project_main.svg";
-import ProjectSetting from "../../assets/icons/project_setting.svg";
-import ProjectHome from "../../assets/icons/project_home.svg";
-import ButtonSectionCard from "../ButtonSectionCard/ButtonSectionCard";
+import {LastProject, NowProject, FutureProject} from '../../utils/images'
+import {ProjectMain, ProjectSetting, ProjectHome} from '../../utils/icon'
+import {ButtonSectionCard, Modal} from '../../utils/components'
+
+import {ButtonField, ButtonBack, LineNone, EmployeeTeam, BlockPagination, TextMain } from '../../components/ModalElement/ModalElement'
 
 const images = [ProjectMain, ProjectSetting, ProjectHome];
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project, status }) => {
     const [section, setSection] = useState(0);
+
+    const role = useSelector((state) => state.auth.user.role);
+    const [modalContent, setModalContent] = useState(null); // Состояние для контента модального окна
 
     const handleClick = (index) => {
         setSection(index); // Устанавливаем активную секцию при клике
+    };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = (type) => {
+        if (type === 'technology') {
+            setModalContent(
+                <>
+                    <BlockPagination component={TextMain} data={project.stacks.map(stack => ({
+                        direction: stack.direction_name,
+                        stack: stack.stack_name
+                    }))} />
+                    <ButtonBack text={"Back"} />
+                </>
+            );
+        } else if (type === 'team') {
+            setModalContent(
+                <>
+                    <EmployeeTeam surName={`${project.project_teamlead_name} ${project.project_teamlead_surname}`} direction={'Teamlead'} />
+                    <LineNone />
+                    <BlockPagination component={EmployeeTeam} data={project.users.map(user => ({
+                        surName: `${user.user_name} ${user.user_surname}`,
+                        direction: user.user_direction
+                    }))} />
+                    <ButtonBack text={"Back"} />
+                </>
+            );
+        }
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalContent(null); // Сброс контента при закрытии
     };
 
     let content =
@@ -27,17 +63,20 @@ const ProjectCard = ({ project }) => {
             <div className="setting">
                 <p className="text_mln_f26_l26">Technology</p>
                 <div className="technology">
-                    {project.stacks &&
-                        project.stacks.slice(0, 4).map((stack) => (
-                            <div key={stack.stack_id} className="stack">
-                                <div className="dot_stack"></div>
-                                <p className="text_mln_f20_l20">
-                                    {stack.stack_name}
-                                </p>
-                            </div>
-                        ))}
+                {project.stacks && project.stacks.length > 0 ? (
+                    project.stacks.slice(0, 4).map((stack) => (
+                        <div key={stack.stack_id} className="stack">
+                            <div className="dot_stack"></div>
+                            <p className="text_mln_f20_l20">
+                                {stack.stack_name}
+                            </p>
+                        </div>
+                    ))
+                ) : (
+                    <p className="text_mln_f20_l20">Нет стеков</p> // Сообщение, если стеков нет
+                )}
                 </div>
-                <button className="more">
+                <button className="more" onClick={() => openModal('technology')}>
                     <p className="text_mln_f16_l16">More</p>
                 </button>
             </div>
@@ -52,27 +91,37 @@ const ProjectCard = ({ project }) => {
                     </div>
                 </div>
                 <div className="teamlead_line"></div>
-                <button className="home_team">
+                <button className="home_team" onClick={() => openModal('team')} >
                     <p className="text_mln_f14_l14">show all team</p>
                 </button>
-                <button className="participate">
-                    <p className="text_mln_f16_l16">Participate</p>
-                </button>
+                {role !== 'teamlead' ? (
+                    <button className="participate">
+                        <p className="text_mln_f16_l16">Participate</p>
+                    </button>
+                ) : (
+                    <div className="participate"></div>
+                )}
             </div>
         );
 
-    return (
-        <div className="card">
-            <img src={LastProject} alt="More" />
-            <>{content}</>
-            <div className="section">
-                {images.map((image, index) => {
-                    return (
-                        <ButtonSectionCard key={index} image={image} active={section === index} onClick={() => handleClick(index)} />
-                    );
-                })}
+
+    return (     
+        <>
+            {isModalOpen && <Modal closeModal={closeModal} main_text={section === 1 ? "Technology" : "Team"} component={modalContent} />} 
+            <div className="card">
+                <img src={status == 'completed' ? LastProject :
+    status == 'notStarted' ? FutureProject : NowProject} alt="image_project" />
+                <>{content}</>
+                <div className="section">
+                    {images.map((image, index) => {
+                        return (
+                            <ButtonSectionCard key={index} image={image} active={section === index} onClick={() => handleClick(index)} />
+                        );
+                    })}
+                </div>
             </div>
-        </div>
+        </> 
+        
     );
 };
 

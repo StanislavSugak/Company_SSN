@@ -15,7 +15,7 @@ export const getProjects = createAsyncThunk('project/getProjects', async ({ id_u
 const projectSlice = createSlice({
     name: 'project', 
     initialState: {
-        projects: [],
+        projects: {},
         isLoading: false,
     },
     reducers: {

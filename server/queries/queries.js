@@ -1,7 +1,14 @@
-const GET_PROJECTS_DATA_BY_EMPLOYEE = `SELECT * FROM GetProjectsDataByEmployee($1)`;
-const GET_PROJECTS_DATA_BY_TEAMLEAD = `SELECT * FROM GetProjectsDataByTeamlead($1)`;
-
-module.exports = {
-    GET_PROJECTS_DATA_BY_EMPLOYEE,
-    GET_PROJECTS_DATA_BY_TEAMLEAD,
+const projectQueries = {
+    employee: {
+        completed: `SELECT * FROM GetProjectsDataByUserFilter($1, 'completed')`,
+        inProgress: `SELECT * FROM GetProjectsDataByUserFilter($1, 'progress')`,
+        notStarted: `SELECT * FROM GetProjectsDataByUserFilter($1, NULL)`, //null1
+    },
+    teamlead: {
+        completed: `SELECT * FROM GetProjectsDataByTeamleadFilter($1, 'completed')`,
+        inProgress: `SELECT * FROM GetProjectsDataByTeamleadFilter($1, 'progress')`,
+        notStarted: `SELECT * FROM GetProjectsDataByTeamleadFilter($1, NULL)`,
+    }
 };
+
+module.exports = { projectQueries };

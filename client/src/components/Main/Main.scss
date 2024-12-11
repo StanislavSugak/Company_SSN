@@ -7,8 +7,15 @@ main{
         width: 100%;
         flex-grow: 1;
         transition: margin-left 0.3s ease; 
-        flex-direction: column;
     }
+}
 
-
+@media(max-width:1025px){
+    main{
+        .children{
+            display: flex; 
+            align-items: center;
+            flex-direction: column;
+        }
+    }
 }

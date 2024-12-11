@@ -1,19 +1,8 @@
-const {
-    Project,
-    User,
-    Project_User,
-    User_Stack,
-    Project_Stack,
-    Stack,
-    User_Personal,
-} = require("../models/models");
+const { Project, User, Project_User, User_Stack, Project_Stack, Stack, User_Personal} = require("../models/models");
 const ApiError = require("../error/ApiError");
 const { stringify } = require("uuid");
 const sequelize = require("../db"); // Импортируйте sequelize
-const {
-    GET_PROJECTS_DATA_BY_EMPLOYEE,
-    GET_PROJECTS_DATA_BY_TEAMLEAD,
-} = require("../queries/queries");
+const { projectQueries } = require("../queries/queries");
 
 class projectService {
     async createProject(projectData) {
@@ -52,12 +41,23 @@ class projectService {
     }
 
     async getProjectsByUser(userId, role) {
-        const projects = await sequelize.query(
-            role == "teamlead" ? GET_PROJECTS_DATA_BY_TEAMLEAD : GET_PROJECTS_DATA_BY_EMPLOYEE,
-            { bind: [userId], type: sequelize.QueryTypes.SELECT }
-        );
+        const roleQueries = projectQueries[role === "teamlead" ? 'teamlead' : 'employee'];
+        console.log(roleQueries);
+        
+        let completedProjects = [];
+        let inProgressProjects = [];
+        let notStartedProjects = [];
 
-        return projects;
+        completedProjects = await sequelize.query(roleQueries.completed, { bind: [userId], type: sequelize.QueryTypes.SELECT });
+        inProgressProjects = await sequelize.query(roleQueries.inProgress, { bind: [userId], type: sequelize.QueryTypes.SELECT });
+        notStartedProjects = await sequelize.query(roleQueries.notStarted, { bind: [userId], type: sequelize.QueryTypes.SELECT });
+
+        return {
+            completed: completedProjects,
+            inProgress: inProgressProjects,
+            notStarted: notStartedProjects,
+        };
+        
     }
 }
 
