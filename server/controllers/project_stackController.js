@@ -22,6 +22,7 @@ class Project_StackController extends Controller {
 
         return res.json(project_stacks);
     }
+
 }
 
 module.exports = new Project_StackController();

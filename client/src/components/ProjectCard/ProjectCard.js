@@ -1,56 +1,52 @@
 import React, { useState } from "react";
-import {useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import "./ProjectCard.scss";
-import {LastProject, NowProject, FutureProject} from '../../utils/images'
-import {ProjectMain, ProjectSetting, ProjectHome} from '../../utils/icon'
-import {ButtonSectionCard, Modal} from '../../utils/components'
-
-import {ButtonField, ButtonBack, LineNone, EmployeeTeam, BlockPagination, TextMain } from '../../components/ModalElement/ModalElement'
+import { LastProject, NowProject, FutureProject } from '../../utils/images';
+import { ProjectMain, ProjectSetting, ProjectHome } from '../../utils/icon';
+import { ButtonSectionCard, Modal } from '../../utils/components';
+import { ButtonField, ButtonBack, LineNone, EmployeeTeam, BlockPagination, TextMain } from '../../components/ModalElement/ModalElement';
+import { openModal, backModal } from '../../store/slices/modalSlice';
 
 const images = [ProjectMain, ProjectSetting, ProjectHome];
 
 const ProjectCard = ({ project, status }) => {
     const [section, setSection] = useState(0);
-
     const role = useSelector((state) => state.auth.user.role);
-    const [modalContent, setModalContent] = useState(null); // Состояние для контента модального окна
+    const dispatch = useDispatch();
+    const { modal } = useSelector((state) => state.modal);
 
     const handleClick = (index) => {
-        setSection(index); // Устанавливаем активную секцию при клике
+        setSection(index);
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openProjectModal = (type) => {
+        let content;
 
-    const openModal = (type) => {
-        if (type === 'technology') {
-            setModalContent(
+        if (type === 'Technology') {
+            content = (
                 <>
-                    <BlockPagination component={TextMain} data={project.stacks.map(stack => ({
+                    <BlockPagination component={TextMain} data={project.stacks ? project.stacks.map(stack => ({
                         direction: stack.direction_name,
                         stack: stack.stack_name
-                    }))} />
-                    <ButtonBack text={"Back"} />
+                    })) : []} />
+                    <ButtonBack text={"Back"} onClose={() => dispatch(backModal())} />
                 </>
             );
-        } else if (type === 'team') {
-            setModalContent(
+        } else if (type === 'Team') {
+            content = (
                 <>
                     <EmployeeTeam surName={`${project.project_teamlead_name} ${project.project_teamlead_surname}`} direction={'Teamlead'} />
                     <LineNone />
-                    <BlockPagination component={EmployeeTeam} data={project.users.map(user => ({
+                    <BlockPagination component={EmployeeTeam} data={project.users ? project.users.map(user => ({
                         surName: `${user.user_name} ${user.user_surname}`,
                         direction: user.user_direction
-                    }))} />
-                    <ButtonBack text={"Back"} />
+                    })) : []} />
+                    <ButtonBack text={"Back"} onClose={() => dispatch(backModal())} />
                 </>
             );
         }
-        setIsModalOpen(true);
-    };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setModalContent(null); // Сброс контента при закрытии
+        dispatch(openModal({ content, title: type }));
     };
 
     let content =
@@ -63,20 +59,18 @@ const ProjectCard = ({ project, status }) => {
             <div className="setting">
                 <p className="text_mln_f26_l26">Technology</p>
                 <div className="technology">
-                {project.stacks && project.stacks.length > 0 ? (
-                    project.stacks.slice(0, 4).map((stack) => (
-                        <div key={stack.stack_id} className="stack">
-                            <div className="dot_stack"></div>
-                            <p className="text_mln_f20_l20">
-                                {stack.stack_name}
-                            </p>
-                        </div>
-                    ))
-                ) : (
-                    <p className="text_mln_f20_l20">Нет стеков</p> // Сообщение, если стеков нет
-                )}
+                    {project.stacks && project.stacks.length > 0 ? (
+                        project.stacks.slice(0, 4).map((stack) => (
+                            <div key={stack.stack_id} className="stack">
+                                <div className="dot_stack"></div>
+                                <p className="text_mln_f20_l20">{stack.stack_name}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="technology_none text_mln_f14_l14">There is no information at the moment</p>
+                    )}
                 </div>
-                <button className="more" onClick={() => openModal('technology')}>
+                <button className="more" onClick={() => openProjectModal('Technology')}>
                     <p className="text_mln_f16_l16">More</p>
                 </button>
             </div>
@@ -91,7 +85,7 @@ const ProjectCard = ({ project, status }) => {
                     </div>
                 </div>
                 <div className="teamlead_line"></div>
-                <button className="home_team" onClick={() => openModal('team')} >
+                <button className="home_team" onClick={() => openProjectModal('Team')}>
                     <p className="text_mln_f14_l14">show all team</p>
                 </button>
                 {role !== 'teamlead' ? (
@@ -104,24 +98,19 @@ const ProjectCard = ({ project, status }) => {
             </div>
         );
 
-
-    return (     
+    return (
         <>
-            {isModalOpen && <Modal closeModal={closeModal} main_text={section === 1 ? "Technology" : "Team"} component={modalContent} />} 
+            {modal.isOpen && <Modal closeModal={() => dispatch(backModal())} main_text={modal.title} component={modal.content} />}
             <div className="card">
-                <img src={status == 'completed' ? LastProject :
-    status == 'notStarted' ? FutureProject : NowProject} alt="image_project" />
+                <img src={status === 'completed' ? LastProject : status === 'notStarted' ? FutureProject : NowProject} alt="image_project" />
                 <>{content}</>
                 <div className="section">
-                    {images.map((image, index) => {
-                        return (
-                            <ButtonSectionCard key={index} image={image} active={section === index} onClick={() => handleClick(index)} />
-                        );
-                    })}
+                    {images.map((image, index) => (
+                        <ButtonSectionCard key={index} image={image} active={section === index} onClick={() => handleClick(index)} />
+                    ))}
                 </div>
             </div>
-        </> 
-        
+        </>
     );
 };
 

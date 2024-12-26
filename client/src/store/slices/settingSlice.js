@@ -1,9 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const settingSlice = createSlice({
-    name: 'setting',
+    name: "setting",
     initialState: {
-        isBurgerOpen: true
+        isBurgerOpen: true,
+
     },
     reducers: {
         setBurgerOpen(state, action) {

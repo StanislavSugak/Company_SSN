@@ -37,7 +37,6 @@ const authSlice = createSlice({
         }, // Начальное состояние пользователя
         isAuth: false,
         isLoading: false,
-        
     },
     reducers: {
         setAuth(state, action) {

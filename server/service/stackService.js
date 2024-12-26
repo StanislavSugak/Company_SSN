@@ -1,5 +1,6 @@
 const { Stack, Direction } = require("../models/models");
 const ApiError = require("../error/ApiError");
+const sequelize = require("../db"); // Импортируйте sequelize
 
 class StackService {
     async createStack(stackData) {
@@ -16,13 +17,12 @@ class StackService {
         return stack;
     }
 
-    async getAll() {
-        const directions = await Stack.findAll({
-            include: [{ model: Direction, as: "direction" }],
-            attributes: { exclude: ["createdAt", "updatedAt"] },
-        });
+    async getAll(id_direction) {
+        const queries = directionQueries.stack; 
 
-        return directions;
+        const stacks = await sequelize.query(queries.allStackByDirection, { bind: [id_direction], type: sequelize.QueryTypes.SELECT });
+        console.log(stacks)
+        return stacks;        
     }
 
     async getOne(id) {
@@ -31,8 +31,18 @@ class StackService {
             include: [{ model: Direction, as: "direction" }],
             attributes: { exclude: ["createdAt", "updatedAt"] },
         });
-        return direction;
+        return direction;        
     }
+
+    async getAll(id_direction) {
+        const queries = directionQueries.stack; 
+
+        const stacks = await sequelize.query(queries.allStackByDirection, { bind: [id_direction], type: sequelize.QueryTypes.SELECT });
+        console.log(stacks)
+        return stacks;        
+    }
+
+    
 }
 
 module.exports = new StackService();

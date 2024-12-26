@@ -8,6 +8,10 @@ export const API_ENDPOINTS = {
     },
     PROJECT: {
         GET_PROJECTS: 'project/',
+    },
+    TECHNOLOGY: {
+        GET_DIRECTIONS: 'direction/',
+        GET_STACK: 'stack/'
     }
     //
 };

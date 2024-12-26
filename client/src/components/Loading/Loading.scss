@@ -54,9 +54,11 @@
 @keyframes bounce {
     0% {
         transform: translateY(0); /* Исходное положение */
+        opacity: 0.6;
     }
     100% {
         transform: translateY(-20px); /* Подскок вверх */
+        opacity: 1;
     }
 }
 

@@ -1,40 +1,40 @@
 @import "../../styles/global";
 
-.modal_line{
+.modal_line {
     width: 100%;
     height: 1px;
     border-radius: 1px;
     background-color: $white_item_color;
 }
 
-.modal_line_none{
+.modal_line_none {
     @extend .modal_line;
 
     background-color: transparent;
 }
 
-.button{
+.button {
     @extend .container_center;
 
     width: 100px;
     height: 35px;
     border-radius: 20px;
     border: 0;
-}   
+}
 
-.button_back{
+.button_back {
     @extend .button;
 
     background-color: $button_db;
 }
 
-.button_next{
+.button_next {
     @extend .button;
 
     background-color: $button_d5;
 }
 
-.button_field{
+.button_field {
     @extend .container_center;
     gap: 10px;
 
@@ -42,58 +42,57 @@
     height: fit-content;
 }
 
-
-.text_main{
+.text_main {
     display: flex;
     flex-direction: column;
     gap: 4px;
 
-    >p:nth-of-type(1){
+    > p:nth-of-type(1) {
         padding-top: 2px;
     }
 
-    >p:nth-of-type(2){
+    > p:nth-of-type(2) {
         color: $gray_text_999;
     }
 }
 
-
-.employee_team{
+.employee_team {
     height: 45px;
     display: flex;
     gap: 20px;
 
-        .employee_team_image{
-            height: 45px;
-            width: 45px;
-            border-radius: 45px;
-            background-color: #fff;
-        }
+    .employee_team_image {
+        height: 45px;
+        width: 45px;
+        border-radius: 45px;
+        background-color: #fff;
+    }
 }
 
-.form_data{
+.form_data {
     @extend .container_between;
-    gap:15px;
+    gap: 15px;
     width: 100%;
     height: 40px;
     padding: 0 10px;
     box-sizing: border-box;
     position: relative;
 
-    &::before { //псевдоэлемент для внутренней границы
-        content: ''; 
+    &::before {
+        //псевдоэлемент для внутренней границы
+        content: "";
         position: absolute; // Позиционирование относительно родителя
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
         border-radius: 1px;
-        border-bottom: 1px solid $gray_text_999; 
+        border-bottom: 1px solid $gray_text_999;
         pointer-events: none; // Игнорируем события мыши
-        z-index: 1; 
+        z-index: 1;
     }
 
-    >input{
+    > input {
         @extend .text_mln_f16_l16;
         width: 100%;
         background-color: transparent;
@@ -102,22 +101,118 @@
         color: $gray_text_999;
     }
 
-    >input::placeholder {
+    > input::placeholder {
         color: $gray_text_999; /* Цвет плейсхолдера */
     }
 
-    >img{
+    > img {
         height: 18px;
         width: 18px;
     }
 }
 
-.component_container{
+.component_container {
     min-height: 150px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
 
+
+.block_stack{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+
+    >span{
+        display: flex;
+        align-items: center;
+        gap:15px;
+
+        .input_block{
+            @extend .text_mln_f20_l20;
+            
+            color: $white_item_color;
+            background-color: transparent;
+            height: 20px;
+            width: 12px;
+            outline: none;
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
+    }
+    
+}
+
+
+.select_stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 95px;
+
+    .select_ds {
+        position: relative;
+
+        .custom_select {
+            position: relative;
+            display: flex;
+            cursor: pointer;
+            padding: 0 10px;
+            gap: 10px;
+            height: 45px;
+            background-color: transparent;
+        }
+
+        /* Стиль для выбранной опции */
+        .selected_option {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+
+            > p {
+                color: $gray_text_999;
+            }
+        }
+
+        .arrow {
+            width: 15px;
+            height: 16px;
+        }
+
+        /* Выпадающий список */
+        .options_list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: $second_color;
+            border-radius: 10px;
+            z-index: 1000;
+            padding: 15px 25px;
+            margin: 0 10px;
+            list-style-type: none;
+            scrollbar-width: thin;
+            scrollbar-color: $rose_color transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            border-top: 10px solid $second_color;
+            border-bottom: 10px solid $second_color;
+        }
+
+        /* Стиль для элементов списка */
+        .options_list li {
+            @extend .text_mln_f16_l16;
+            color: $gray_text_999;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    }
 }
 
 .pagination_dots {
@@ -129,15 +224,14 @@
 
     .dot {
         cursor: pointer;
-        width: 8px; 
-        height: 8px; 
-        border-radius: 10px; 
-        background-color: transparent; 
+        width: 8px;
+        height: 8px;
+        border-radius: 10px;
+        background-color: transparent;
         border: 1px solid $white_item_color;
     }
-    
+
     .dot.active {
-        background-color: $white_item_color; 
+        background-color: $white_item_color;
     }
 }
-

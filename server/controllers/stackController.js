@@ -15,7 +15,9 @@ class DirectionController extends Controller {
     }
 
     async getAll(req, res) {
-        const stacks = await stackService.getAll();
+        const { id_direction } = req.query;
+
+        const stacks = await stackService.getAll(id_direction);
 
         return res.json(stacks);
     }

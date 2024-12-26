@@ -11,4 +11,13 @@ const projectQueries = {
     }
 };
 
-module.exports = { projectQueries };
+directionQueries = {
+    direction: {
+        allDirection: 'SELECT * FROM GetAllDirections()',
+    },
+    stack: {
+        allStackByDirection: 'SELECT * FROM GetStacksByDirection($1); ',
+    } 
+}
+
+module.exports = { projectQueries, directionQueries };

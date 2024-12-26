@@ -1,5 +1,7 @@
 const { Direction } = require("../models/models");
 const ApiError = require("../error/ApiError");
+const { directionQueries } = require("../queries/queries");
+const sequelize = require("../db"); // Импортируйте sequelize
 
 class DirectionService {
     async createDirection(direction) {
@@ -15,13 +17,17 @@ class DirectionService {
     }
 
     async getAll() {
-        const directions = await Direction.findAll({
-            attributes: { exclude: ["createdAt", "updatedAt"] },
-        });
+        const queries = directionQueries.direction; 
 
-        if(!directions){
-            throw ApiError.badRequest('Нету записей о направлениях')
-        }
+        const directions = await sequelize.query(queries.allDirection, { type: sequelize.QueryTypes.SELECT });
+
+        // const directions = await Direction.findAll({
+        //     attributes: { exclude: ["createdAt", "updatedAt"] },
+        // });
+
+        // if(!directions){
+        //     throw ApiError.badRequest('Нету записей о направлениях')
+        // }
 
         return directions;
     }
